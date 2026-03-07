@@ -6,7 +6,13 @@ Provision [Amazon EC2](https://aws.amazon.com/ec2/) instance for R development a
 
 [R](https://www.r-project.org/) is a language and environment for statistical computing and graphics.
 
-This repo provides [CloudFormation](https://aws.amazon.com/cloudformation/) template to provision EC2 instance for R development and computation. Template offers option to install [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), and both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Posiitron](https://posit.co/products/ide/positron/) desktop IDEs. These applications can be accessed securely from web browser through [Amazon CloudFront](https://aws.amazon.com/cloudfront/), and Amazon DCV high-performance remote protocol. NVIDIA GPU instances are supported.
+This repo provides [CloudFormation](https://aws.amazon.com/cloudformation/) template to provision EC2 instance for R development and computation. Template offers option to install [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), and both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Posiitron](https://posit.co/products/ide/positron/) desktop IDEs. These applications can be accessed securely from web browser through [Amazon CloudFront](https://aws.amazon.com/cloudfront/), and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) high-performance remote protocol. NVIDIA GPU instances are supported.
+
+## Demo
+
+
+https://github.com/user-attachments/assets/6fecf924-8154-494e-bb87-73a8ec4d1b9e
+
 
 ## Architecture Diagram
 
