@@ -31,7 +31,7 @@ The template provides the following features:
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
 - AWS Services
   - [Amazon CloudFront](https://aws.amazon.com/cloudfront/) secure web access to RStudio Server and Shiny Server (optional)
-  - [Amazon DCV](https://aws.amazon.com/hpc/dcv/) secure high-performance remote desktop access
+  - [Amazon DCV](https://aws.amazon.com/hpc/dcv/) secure high-performance remote desktop access (optional)
   - [AWS Backup](https://aws.amazon.com/backup/) to protect EC2 instance data (optional)
 
 ## Notice
