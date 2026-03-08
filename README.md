@@ -58,7 +58,7 @@ Template installs free versions of RStudio, Shiny Server and Positron, which are
 ## Other options
 
 - [Amazon Lightsail for Research](https://aws.amazon.com/lightsail/research/) supports [RStudio Desktop](https://docs.aws.amazon.com/lightsail-for-research/latest/ug/tutorial-rstudio.html). Refer to [Getting started with Amazon Lightsail for Research: A tutorial using RStudio](https://aws.amazon.com/blogs/publicsector/getting-started-amazon-lightsail-research-tutorial-using-rstudio/) for more information
-- Amazon SageMaker AI supports [notebook instance with R](https://docs.aws.amazon.com/sagemaker/latest/dg/r-sagemaker-get-started.html) and [RStudio](https://docs.aws.amazon.com/sagemaker/latest/dg/rstudio.html).  Refer to blog post [Get started with RStudio on Amazon SageMaker](https://aws.amazon.com/blogs/machine-learning/get-started-with-rstudio-on-amazon-sagemaker/) for more information
+- Amazon SageMaker AI supports [notebook instance with R](https://docs.aws.amazon.com/sagemaker/latest/dg/r-sagemaker-get-started.html) and [RStudio](https://docs.aws.amazon.com/sagemaker/latest/dg/rstudio.html). Refer to blog post [Get started with RStudio on Amazon SageMaker](https://aws.amazon.com/blogs/machine-learning/get-started-with-rstudio-on-amazon-sagemaker/) for more information
 
 ## Requirements
 
@@ -111,7 +111,7 @@ EBS volume
 
 Amazon CloudFront
 
-- `enableCloudFront`: [create](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-creating-console.html) a [Amazon CloudFront](https://aws.amazon.com/cloudfront/) distribution to EC2 instance. Associated charges are listed on [Amazon CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/) page. Default is `Yes`
+- `enableCloudFront`: [create](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-creating-console.html) [Amazon CloudFront](https://aws.amazon.com/cloudfront/) distribution(s) to RStudio Server and/or Shiny Server. Associated charges are listed on [Amazon CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/) page. Default is `Yes`
 - `originType`: either `Custom Origin` or `VPC Origin`.  Default is `Custom Origin` which requires EC2 instance to have public internet IPv4 address. Most [AWS Regions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html#vpc-origins-supported-regions) support [VPC Origins](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-cloudfront-virtual-private-cloud-vpc-origins-shield-your-web-applications-from-public-internet/), which allow CloudFront to deliver content even if your EC2 instance is in a VPC private subnet. Ensure `assignStaticIP` is `Yes` if using `Custom Origin`.
 - `cloudFrontLogging`:  enable CloudFront [standard logging](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) to new S3 bucket. Default is `No`
 
