@@ -1827,9 +1827,14 @@ Resources:
                 # install R itself
                 apt-get -q -y install --no-install-recommends r-base
 
-                # Paws: https://github.com/paws-r/paws#installation
+                # Paws (AWS SDK for R): https://github.com/paws-r/paws#installation
                 apt-get install -q -y libcurl4-openssl-dev libssl-dev libxml2-dev
                 sudo su - -c "R -e \"install.packages('paws', repos = c(pawsr = 'https://paws-r-builds.s3.amazonaws.com/packages/latest/', CRAN = 'https://cloud.r-project.org'))\""
+
+                # reticulate (R Interface to Python): https://rstudio.github.io/reticulate/
+                apt-get install -q -y python3-venv
+                apt-get install -q -y libpng-dev
+                sudo su - -c "R -e \"install.packages('reticulate', repos='https://cran.rstudio.com/')\""
 
                 # RStudio server: https://posit.co/download/rstudio-server/
                 rm -f *.deb
@@ -1858,6 +1863,9 @@ Resources:
                   curl -s -L -O ${ShinyServerURL}
                   apt-get install -q -y ./*.deb
                 fi
+
+                # git
+                apt-get install -q -y git
 
                 rm -f ${!0}
               mode: "000740"

@@ -10,7 +10,7 @@ This repo provides [CloudFormation](https://aws.amazon.com/cloudformation/) temp
 
 ## Demo
 
-Demo showing RStudio Desktop, Positron, Shiny Server, RStudio Server and Paws package
+Demo showing RStudio Desktop, Positron, Shiny Server, RStudio Server and Paws library accessing S3
 
 <https://github.com/user-attachments/assets/6fecf924-8154-494e-bb87-73a8ec4d1b9e>
 
@@ -23,9 +23,12 @@ Demo showing RStudio Desktop, Positron, Shiny Server, RStudio Server and Paws pa
 The template provides the following features:
 
 - [Ubuntu](https://ubuntu.com/aws) or [Ubuntu Pro](https://aws.amazon.com/about-aws/whats-new/2023/04/amazon-ec2-ubuntu-pro-subscription-model/) 24.04 LTS
-  - [NVIDIA](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) GPU driver and NVIDIA Container Toolkit install (for NVIDIA instance types)
+  - [Docker Engine](https://docs.docker.com/engine/)
+  - GPU driver and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) (NVIDIA [instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type))
 - Applications
-  - [R](https://www.r-project.org/) with [Paws](https://www.paws-r-sdk.com/) (Package for Amazon Web Services) AWS SDK
+  - [R](https://www.r-project.org/) with
+    - [Paws](https://www.paws-r-sdk.com/) (SDK for R): provide access to suite of AWS services
+    - [reticulate](https://rstudio.github.io/reticulate/) (R interface to Python): allow use of SageMaker AI Python SDK
   - [RStudio Server](https://posit.co/download/rstudio-server/) (optional)
   - [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) (optional)
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
@@ -59,6 +62,7 @@ Template installs free versions of RStudio, Shiny Server and Positron, which are
 
 - [Amazon Lightsail for Research](https://aws.amazon.com/lightsail/research/) supports [RStudio Desktop](https://docs.aws.amazon.com/lightsail-for-research/latest/ug/tutorial-rstudio.html). Refer to [Getting started with Amazon Lightsail for Research: A tutorial using RStudio](https://aws.amazon.com/blogs/publicsector/getting-started-amazon-lightsail-research-tutorial-using-rstudio/) for more information
 - Amazon SageMaker AI supports [notebook instance with R](https://docs.aws.amazon.com/sagemaker/latest/dg/r-sagemaker-get-started.html) and [RStudio](https://docs.aws.amazon.com/sagemaker/latest/dg/rstudio.html). Refer to blog post [Get started with RStudio on Amazon SageMaker](https://aws.amazon.com/blogs/machine-learning/get-started-with-rstudio-on-amazon-sagemaker/) for more information
+- Blog post [Scaling RStudio/Shiny using Serverless Architecture and AWS Fargate](https://aws.amazon.com/blogs/architecture/scaling-rstudio-shiny-using-serverless-architecture-and-aws-fargate/) discuss a scalable, secure, and serverless architecture pattern to host RStudio Server
 
 ## Requirements
 
@@ -69,7 +73,7 @@ Above configuration are enabled in [default VPC](https://docs.aws.amazon.com/vpc
 
 ## Deploying using CloudFormation console
 
-Download [Ubuntu-R-server.yaml](Ubuntu-R-server.yaml) file. Login to AWS [CloudFormation console](https://console.aws.amazon.com/cloudformation/home#/stacks/create/template). Choose **Create Stack**, **Upload a template file**, **Choose File**, select your .YAML file and choose **Next**. Enter a **Stack name** and specify parameters values.
+Download [Ubuntu-R-server.yaml](Ubuntu-R-server.yaml) file. Login to AWS [CloudFormation console](https://console.aws.amazon.com/cloudformation/home#/stacks/create/template). Choose **Create Stack**, **Upload a template file**, **Choose File**, select your .yaml file and choose **Next**. Enter a **Stack name** and specify parameters values.
 
 ### CloudFormation Parameters
 
@@ -78,7 +82,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 Applications
 
 - `installRStudioServer`: install [RStudio Server](https://posit.co/download/rstudio-server/). Default is `Yes`
-- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. Template will install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) for secure high performance remote graphical desktop access. Default is `No`
+- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. Template will install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) for remote graphical desktop access. Default is `No`
 - `installShinyServer`: install [Shiny Server](https://posit.co/products/open-source/shiny-server/). Default is `No`
 
 EC2
@@ -99,7 +103,7 @@ Network
 Remote access
 
 - `ingressIPv4`: allowed IPv4 source prefix to EC2 instance, e.g. `1.2.3.4/32`. You can get your source IP from [https://checkip.amazonaws.com](https://checkip.amazonaws.com). Default is `0.0.0.0/0`
-- `ingressIPv6`: allowed IPv6 source prefix to EC2 instance. Default is `::/0`. [Default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) does not have [IPv6 CIDR block associated](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-ipv6-addresses.html)
+- `ingressIPv6`: allowed IPv6 source prefix to EC2 instance. Default is `::/0`. Subnets in [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) do not have [IPv6 CIDR block](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-ipv6-addresses.html) associated
 - `allowSSHport`: allow inbound [SSH](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-ssh.html). Option does not affect [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html#ec2-instance-connect-connecting-console) access. Default is `Yes`
 
 *EC2 inbound SSH and DCV access from public internet are restricted to `ingressIPv4` and `ingressIPv6` IP prefixes*
@@ -147,17 +151,27 @@ EC2 administration
 - `EC2serialConsole`: [EC2 Serial Console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-serial-console.html) URL. Functionality is available under [certain conditions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console-prerequisites.html)
 - `SSMsessionManager`: [SSM Session Manager](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-with-systems-manager-session-manager.html) URL
 
-AWS Credentials
+EC2 IAM
 
-- `EC2iamRole`: EC2 IAM role. Modify this to grant AWS service access
+- `EC2iamRole`: EC2 [IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html). Modify this to grant AWS service access
 
 Application access
 
 - `RStudioServerUrl`: RStudio Server CloudFront URL
 - `ShinyServerUrl`: Shiny Server CloudFront URL
-- `DCVUrl`: Amazon DCV [web browser client](https://docs.aws.amazon.com/dcv/latest/userguide/client-web.html) and [native client](https://docs.aws.amazon.com/dcv/latest/userguide/client.html) URLs to access desktop IDEs. Native clients can be downloaded from [https://www.amazondcv.com/](https://www.amazondcv.com/)
+- `DCVUrl`: Amazon DCV [web browser client](https://docs.aws.amazon.com/dcv/latest/userguide/client-web.html) and [native client](https://docs.aws.amazon.com/dcv/latest/userguide/client.html) URLs to access desktop IDEs. Native clients can be installed from [https://www.amazondcv.com/](https://www.amazondcv.com/)
 
 Default login and password is `ubuntu` and `EC2InstanceID` value. To change password, login to EC2 instance (e.g. through `EC2instanceConnect` or `SSMSessionManager`) and run the command `sudo passwd ubuntu`
+
+## Using AWS in R
+
+- Blog post [Getting started with R on Amazon Web Services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/) walks through how to use RStudio and Paws package
+- [Paws documentation](https://www.paws-r-sdk.com/#documentation) lists code examples, tutorials and workshops
+- [Using R with Amazon SageMaker](https://aws.amazon.com/blogs/machine-learning/using-r-with-amazon-sagemaker/) outlines how to use the reticulate package with Amazon SageMaker AI
+- [Amazon SageMaker Example Notebooks](https://sagemaker-examples.readthedocs.io/en/latest/) has R with SageMaker [examples](https://sagemaker-examples.readthedocs.io/en/latest/r_examples/index.html)
+- [Implement RStudio on your AWS environment and access your data lake using AWS Lake Formation permissions](https://aws.amazon.com/blogs/machine-learning/implement-rstudio-on-your-aws-environment-and-access-your-data-lake-using-aws-lake-formation-permissions/) shows how to integrate RStudio on SageMaker and EC2 into your data lake architectures
+
+*You will need to modify EC2 IAM permissions (`EC2iamRole`) to provide access to desired AWS services such as SageMaker and S3*
 
 ## About EC2 instance
 
