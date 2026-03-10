@@ -168,7 +168,7 @@ Default login and password is `ubuntu` and `EC2InstanceID` value. To change pass
 - Blog post [Getting started with R on Amazon Web Services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/) walks through how to use RStudio and Paws package
 - [Paws documentation](https://www.paws-r-sdk.com/#documentation) lists code examples, tutorials and workshops
 - [Using R with Amazon SageMaker](https://aws.amazon.com/blogs/machine-learning/using-r-with-amazon-sagemaker/) outlines how to use the reticulate package with Amazon SageMaker AI
-- [Amazon SageMaker Example Notebooks](https://sagemaker-examples.readthedocs.io/en/latest/) has R with SageMaker [examples](https://sagemaker-examples.readthedocs.io/en/latest/r_examples/index.html)
+- [Amazon SageMaker Example Notebooks](https://sagemaker-examples.readthedocs.io/en/latest/) has some R with SageMaker [examples](https://sagemaker-examples.readthedocs.io/en/latest/r_examples/index.html)
 - [Implement RStudio on your AWS environment and access your data lake using AWS Lake Formation permissions](https://aws.amazon.com/blogs/machine-learning/implement-rstudio-on-your-aws-environment-and-access-your-data-lake-using-aws-lake-formation-permissions/) shows how to integrate RStudio on SageMaker and EC2 into your data lake architectures
 
 *You will need to modify EC2 IAM permissions (`EC2iamRole`) to provide access to desired AWS services such as SageMaker and S3*
@@ -190,7 +190,7 @@ If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 - [RStudio Server](https://posit.co/download/rstudio-server/)
 - [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
 - [Positron](https://positron.posit.co/download.html)
-- [Shiny Server](https://posit.co/products/open-source/shiny-server/)
+- [Shiny Server](https://posit.co/download/shiny-server/)
 
 ### Restoring from backup
 
