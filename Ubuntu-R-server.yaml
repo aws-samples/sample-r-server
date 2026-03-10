@@ -1841,6 +1841,7 @@ Resources:
                 if [ "${installRStudioServer}" = "Yes" ]; then
                   curl -s -L -O ${RStudioServerURL}
                   apt-get install -q -y ./*.deb
+                  systemctl enable rstudio-server
                 fi
 
                 # RStudio desktop: https://posit.co/download/rstudio-desktop/
@@ -1862,10 +1863,14 @@ Resources:
                   sudo su - -c "R -e \"install.packages('rmarkdown', repos='https://cran.rstudio.com/')\""
                   curl -s -L -O ${ShinyServerURL}
                   apt-get install -q -y ./*.deb
+                  systemctl enable shiny-server
                 fi
 
                 # git
                 apt-get install -q -y git
+
+                # GDebi
+                apt-get install -q -y gdebi-core
 
                 rm -f ${!0}
               mode: "000740"
