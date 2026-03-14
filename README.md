@@ -26,9 +26,11 @@ The template provides the following features:
   - [Docker Engine](https://docs.docker.com/engine/)
   - GPU driver and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) (NVIDIA [instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type))
 - Applications
-  - [R](https://www.r-project.org/) with
-    - [Paws](https://www.paws-r-sdk.com/) (SDK for R): provide access to suite of AWS services
+  - [R](https://www.r-project.org/) from [CRAN](https://cran.r-project.org/) (Comprehensive R Archive Network) project
+    - [r2u](https://eddelbuettel.github.io/r2u/) (CRAN as Ubuntu Binaries) project with [bspm](https://cran4linux.github.io/bspm/) (Bridge to System Package Manager): integrate with `apt` for [fast install](https://eddelbuettel.github.io/r2u/#brief-demo)
+    - [Paws](https://www.paws-r-sdk.com/) (SDK for R): provide access to [AWS services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/)
     - [reticulate](https://rstudio.github.io/reticulate/) (R interface to Python): allow use of SageMaker AI Python SDK
+    - [tidyverse](https://tidyverse.org/): for data science
   - [RStudio Server](https://posit.co/download/rstudio-server/) (optional)
   - [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) (optional)
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
@@ -38,7 +40,7 @@ The template provides the following features:
 - Administration
   - [AWS Systems Manager Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) browser-based terminal access
   - [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-eic.html) browser-based SSH (Linux)
-  - [EC2 IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) for R access to AWS service
+  - [EC2 IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) for access to AWS service
   - [AWS Backup](https://aws.amazon.com/backup/) to protect EC2 instance data (optional)
 
 ## License Agreement
@@ -47,6 +49,7 @@ Although this repository is released under the MIT-0 license, its CloudFormation
 Usage indicate license agreement acceptance of all software that is installed on EC2 instance, which include (but is not limited to) the following
 
 - R Project : [GPL-2 | GPL-3](https://www.r-project.org/Licenses/)
+- r2u Project : [GPL (>=2)](https://github.com/eddelbuettel/r2u)
 - RStudio Server : [AGPL v3](https://posit.co/products/open-source/rstudio-server/)
 - RStudio Desktop : [AGPL v3](https://posit.co/products/open-source/rstudio)
 - Shiny Server : [AGPL v3](https://posit.co/products/open-source/shiny-server/)

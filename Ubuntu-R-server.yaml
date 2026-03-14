@@ -68,7 +68,7 @@ Metadata:
           - scheduleExpressionTimezone
           - deleteAfterDays
       - Label:
-          default: Posit download URLs
+          default: Posit download URLs (x86_64)
         Parameters:
           - RStudioServerURL
           - RStudioDesktopURL
@@ -1123,7 +1123,7 @@ Resources:
             IpProtocol: tcp
             FromPort: 80
             ToPort: 80
-            CidrIpv6: !Ref ingressIPv6
+            CidrIpv6: ::/0
           - !Ref AWS::NoValue
         - !If
           - createSgEIC
@@ -1337,6 +1337,16 @@ Resources:
                 sudo apt-get install -y ./nice-dcv-web-viewer_*.deb
                 sudo apt-get install -y ./nice-xdcv_*.deb
                 sudo systemctl daemon-reload
+              mode: "000755"
+              owner: "ubuntu"
+              group: "ubuntu"
+            "/home/ubuntu/update-mountpoint-s3":
+              content: |
+                #!/bin/bash
+                cd /tmp
+                sudo rm -f /tmp/mount-s3.deb
+                wget -4 https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.deb
+                sudo apt-get install -y ./mount-s3.deb
               mode: "000755"
               owner: "ubuntu"
               group: "ubuntu"
@@ -1677,6 +1687,10 @@ Resources:
                 sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="rdblacklist=nouveau /g' /etc/default/grub
                 update-grub
 
+                # MountPoint-S3: https://github.com/awslabs/mountpoint-s3
+                curl -s -L -O https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.deb
+                apt-get install -q -y ./mount-s3.deb
+
                 rm -f ${!0}
               mode: "000740"
               owner: "root"
@@ -1744,6 +1758,7 @@ Resources:
                 sed -i "s/enabled=1/enable=0/g" /etc/default/apport
                 apt-get remove -q -y ubuntu-report whoopsie apport
                 apt-get autoremove -q -y
+
                 # Disable upgrade prompt: https://help.ubuntu.com/community/Upgrades#Upgrade_policy
                 sed -i "s/Prompt=lts/Prompt=never/g" /etc/update-manager/release-upgrades
                 chown -R ubuntu:ubuntu /home/ubuntu/.config
@@ -1827,14 +1842,24 @@ Resources:
                 # install R itself
                 apt-get -q -y install --no-install-recommends r-base
 
-                # Paws (AWS SDK for R): https://github.com/paws-r/paws#installation
-                apt-get install -q -y libcurl4-openssl-dev libssl-dev libxml2-dev
-                sudo su - -c "R -e \"install.packages('paws', repos = c(pawsr = 'https://paws-r-builds.s3.amazonaws.com/packages/latest/', CRAN = 'https://cloud.r-project.org'))\""
+                # https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html
+                # r2u: https://github.com/eddelbuettel/r2u
+                apt-get install -q -y --no-install-recommends wget ca-certificates gnupg
+                wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc | tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc
+                echo "deb [arch=amd64] https://r2u.stat.illinois.edu/ubuntu noble main" > /etc/apt/sources.list.d/cranapt.list
 
-                # reticulate (R Interface to Python): https://rstudio.github.io/reticulate/
-                apt-get install -q -y python3-venv
-                apt-get install -q -y libpng-dev
-                sudo su - -c "R -e \"install.packages('reticulate', repos='https://cran.rstudio.com/')\""
+                echo "Package: *" > /etc/apt/preferences.d/99cranapt
+                echo "Pin: release o=CRAN-Apt Project" >> /etc/apt/preferences.d/99cranapt
+                echo "Pin: release l=CRAN-Apt Packages" >> /etc/apt/preferences.d/99cranapt
+                echo "Pin-Priority: 700"  >> /etc/apt/preferences.d/99cranapt
+
+                apt-get update -q
+
+                apt-get install -q -y python3-{dbus,gi,apt} make
+                sudo su - -c "R -e \"install.packages('bspm')\""
+                RHOME=$(R RHOME)
+                echo "suppressMessages(bspm::enable())" >> $RHOME/etc/Rprofile.site
+                echo "options(bspm.version.check=FALSE)" >> $RHOME/etc/Rprofile.site
 
                 # RStudio server: https://posit.co/download/rstudio-server/
                 rm -f *.deb
@@ -1856,11 +1881,22 @@ Resources:
                   apt-get install -q -y ./*.deb
                 fi
 
+                # Paws (AWS SDK for R): https://github.com/paws-r/paws#installation
+                #apt-get install -q -y libcurl4-openssl-dev libssl-dev libxml2-dev
+                sudo su - -c "R -e \"install.packages('paws')\""
+
+                # reticulate (R Interface to Python): https://rstudio.github.io/reticulate/
+                #apt-get install -q -y python3-venv libpng-dev
+                sudo su - -c "R -e \"install.packages('reticulate')\""
+
+                # tidyverse (collection of R packages for data science): https://www.tidyverse.org/
+                sudo su - -c "R -e \"install.packages('tidyverse')\""
+
                 # Shiny Server: https://posit.co/download/shiny-server/
                 rm -f *.deb
                 if [ "${installShinyServer}" = "Yes" ]; then
-                  sudo su - -c "R -e \"install.packages('shiny', repos='https://cran.rstudio.com/')\""
-                  sudo su - -c "R -e \"install.packages('rmarkdown', repos='https://cran.rstudio.com/')\""
+                  sudo su - -c "R -e \"install.packages('shiny')\""
+                  sudo su - -c "R -e \"install.packages('rmarkdown')\""
                   curl -s -L -O ${ShinyServerURL}
                   apt-get install -q -y ./*.deb
                   systemctl enable shiny-server
