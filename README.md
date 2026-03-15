@@ -4,9 +4,7 @@ R and RStudio, Shiny and/or Positron on EC2
 
 ## Description
 
-[R](https://www.r-project.org/) is a free software environment for statistical computing and graphics
-
-This repo use [CloudFormation](https://aws.amazon.com/cloudformation/) to provision EC2 instance for R processing with option to install [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), and both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
+This repo use [CloudFormation](https://aws.amazon.com/cloudformation/) to provision EC2 instance for [R](https://www.r-project.org/)  processing with option to install [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), and both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
 
 ## Demo
 
