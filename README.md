@@ -10,7 +10,7 @@ This template provisions EC2 instance with [R](https://www.r-project.org/), and 
 
 Demo showing RStudio Desktop, Positron, Shiny Server, RStudio Server and Paws library accessing S3
 
-<https://github.com/user-attachments/assets/6fecf924-8154-494e-bb87-73a8ec4d1b9e>
+https://github.com/user-attachments/assets/c177342f-b87d-4451-b2f0-7e0e0200287b
 
 ## Architecture Diagram
 
