@@ -32,6 +32,7 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
   - [RStudio Server](https://posit.co/download/rstudio-server/) (optional)
   - [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) (optional)
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
+  - [Mountpoint for Amazon S3](https://aws.amazon.com/s3/features/mountpoint/): [mount](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mountpoint.html) an [Amazon S3](https://aws.amazon.com/s3/) bucket as local file system
 - AWS Services
   - [Amazon CloudFront](https://aws.amazon.com/cloudfront/): secure web access to RStudio Server and Shiny Server (optional)
   - [Amazon DCV](https://aws.amazon.com/hpc/dcv/): secure high-performance remote graphical desktop access (optional)
