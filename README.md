@@ -4,7 +4,7 @@ R and RStudio, Shiny and/or Positron on EC2
 
 ## Description
 
-This repo use [CloudFormation](https://aws.amazon.com/cloudformation/) to provision EC2 instance for [R](https://www.r-project.org/)  processing with option to install [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), and both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
+This template provisions EC2 instance with [R](https://www.r-project.org/), and optionally [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/) and/or both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
 
 ## Demo
 
@@ -18,28 +18,28 @@ Demo showing RStudio Desktop, Positron, Shiny Server, RStudio Server and Paws li
 
 ## Overview of features
 
-The CloudFormation template provides the following features:
+The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides the following features:
 
 - [Ubuntu](https://ubuntu.com/aws) or [Ubuntu Pro](https://aws.amazon.com/about-aws/whats-new/2023/04/amazon-ec2-ubuntu-pro-subscription-model/) 24.04 LTS
   - [Docker Engine](https://docs.docker.com/engine/)
   - GPU driver and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) (NVIDIA [instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type))
 - Applications
   - [R](https://www.r-project.org/) from [CRAN](https://cran.r-project.org/) (Comprehensive R Archive Network) project
-    - [r2u](https://eddelbuettel.github.io/r2u/) (CRAN as Ubuntu Binaries) project with [bspm](https://cran4linux.github.io/bspm/) (Bridge to System Package Manager): integrate with `apt` for [fast R packages install](https://eddelbuettel.github.io/r2u/#brief-demo)
-    - [Paws](https://www.paws-r-sdk.com/) (SDK for R): provide access to [AWS services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/)
-    - [reticulate](https://rstudio.github.io/reticulate/) (R interface to Python): allow use of SageMaker AI Python SDK
-    - [tidyverse](https://tidyverse.org/): for data science
+    - [r2u](https://eddelbuettel.github.io/r2u/) (CRAN as Ubuntu Binaries) project with [bspm](https://cran4linux.github.io/bspm/) (Bridge to System Package Manager): `apt` integration for [fast](https://eddelbuettel.github.io/r2u/#brief-demo)  R package install
+    - [Paws](https://www.paws-r-sdk.com/) (SDK for R): access to [AWS services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/)
+    - [reticulate](https://rstudio.github.io/reticulate/) (R interface to Python): interoperability between R and Python
+    - [tidyverse](https://tidyverse.org/): simplify and streamline data science workflows
   - [RStudio Server](https://posit.co/download/rstudio-server/) (optional)
   - [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) (optional)
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
 - AWS Services
-  - [Amazon CloudFront](https://aws.amazon.com/cloudfront/) secure web access to RStudio Server and Shiny Server (optional)
-  - [Amazon DCV](https://aws.amazon.com/hpc/dcv/) secure high-performance remote desktop access (optional)
+  - [Amazon CloudFront](https://aws.amazon.com/cloudfront/): secure web access to RStudio Server and Shiny Server (optional)
+  - [Amazon DCV](https://aws.amazon.com/hpc/dcv/): secure high-performance remote graphical desktop access (optional)
+  - [AWS Backup](https://aws.amazon.com/backup/): EC2 instance data protection (optional)
 - Administration
-  - [AWS Systems Manager Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) browser-based terminal access
-  - [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-eic.html) browser-based SSH (Linux)
-  - [EC2 IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html) for access to AWS service
-  - [AWS Backup](https://aws.amazon.com/backup/) to protect EC2 instance data (optional)
+  - [AWS Systems Manager Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html): browser-based terminal access
+  - [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-eic.html): browser-based SSH (Linux)
+  - [EC2 IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html): access to AWS services
 
 ## License Agreement
 
@@ -57,7 +57,7 @@ Usage indicate license agreement acceptance of all software that is installed on
 
 ### About Posit Software
 
-Template installs free versions of RStudio, Shiny Server and Positron, which are created by [Posit Software, PBC](https://posit.co/about/). Company offers [commercial versions](https://posit.co/products/enterprise/workbench/) including [RStudio IDE integration](https://posit.co/use-cases/sagemaker/) with [Amazon SageMaker AI](https://docs.aws.amazon.com/sagemaker/latest/dg/rstudio.html)
+Template installs free versions of RStudio, Shiny Server and Positron, which are created by [Posit Software, PBC](https://posit.co/about/). Company offers [enterprise versions](https://posit.co/products/enterprise/workbench/) including [RStudio IDE integration](https://posit.co/use-cases/sagemaker/) with [Amazon SageMaker AI](https://docs.aws.amazon.com/sagemaker/latest/dg/rstudio.html)
 
 ## Other options
 
@@ -104,7 +104,7 @@ Network
 Remote access
 
 - `ingressIPv4`: allowed IPv4 source prefix to EC2 instance, e.g. `1.2.3.4/32`. You can get your source IP from [https://checkip.amazonaws.com](https://checkip.amazonaws.com). Default is `0.0.0.0/0`
-- `ingressIPv6`: allowed IPv6 source prefix to EC2 instance. Default is `::/0`. Subnets in [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) do not have [IPv6 CIDR blocks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-ipv6-addresses.html) associated. Specify `fe80::/10` link local prefix to allow internal access only, or `::1/128` to block all inbound IPv6 access.
+- `ingressIPv6`: allowed IPv6 source prefix to EC2 instance. Default is `::/0`. Subnets in [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) do not have [IPv6 CIDR blocks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-ipv6-addresses.html) associated. Specify `fe80::/10` link local prefix to allow internal access only, or `::1/128` to block all inbound IPv6 access
 - `allowSSHport`: allow inbound [SSH](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-ssh.html). Option does not affect [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html#ec2-instance-connect-connecting-console) access. Default is `Yes`
 
 *EC2 inbound SSH and DCV access from public internet are restricted to `ingressIPv4` and `ingressIPv6` IP prefixes*
