@@ -75,7 +75,7 @@ Above configuration are enabled in [default VPC](https://docs.aws.amazon.com/vpc
 
 ## Deploying using CloudFormation console
 
-Download [Ubuntu-R-server.yaml](Ubuntu-R-server.yaml) file. Login to AWS [CloudFormation console](https://console.aws.amazon.com/cloudformation/home#/stacks/create/template). Choose **Create Stack**, **Upload a template file**, **Choose File**, select your .yaml file and choose **Next**. Enter a **Stack name** and specify parameters values.
+Download [Ubuntu-R-server.yaml](https://raw.githubusercontent.com/aws-samples/sample-r-server/refs/heads/main/Ubuntu-R-server.yaml). Login to AWS [CloudFormation console](https://console.aws.amazon.com/cloudformation/home#/stacks/create/template). To [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html), select **Create Stack**, **Upload a template file**, **Choose File**, select your `Ubuntu-R-server.yaml` file and choose **Next**. Enter a **Stack name** and specify parameters values.
 
 ### CloudFormation Parameters
 
