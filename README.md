@@ -84,7 +84,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 Applications
 
 - `installRStudioServer`: install [RStudio Server](https://posit.co/download/rstudio-server/). Default is `Yes`
-- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. Template will install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) for remote graphical desktop access. Default is `No`
+- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. Default is `No`. For `Yes`, template will also install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) server for remote graphical desktop access. Select `Yes-with-HTTPS-reverse-proxy` to use DCV over HTTPS TCP port 443 in addition to default [DCV](https://docs.aws.amazon.com/dcv/latest/adminguide/manage-port-addr.html) TCP and UDP port 8443
 - `installShinyServer`: install [Shiny Server](https://posit.co/products/open-source/shiny-server/). Default is `No`
 
 EC2
@@ -108,7 +108,7 @@ Remote access
 - `ingressIPv6`: allowed IPv6 source prefix to EC2 instance. Default is `::/0`. Subnets in [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) do not have [IPv6 CIDR blocks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-ipv6-addresses.html) associated. Specify `fe80::/10` link local prefix to allow internal access only, or `::1/128` to block all inbound IPv6 access
 - `allowSSHport`: allow inbound [SSH](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-ssh.html). Option does not affect [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html#ec2-instance-connect-connecting-console) access. Default is `Yes`
 
-*EC2 inbound SSH and DCV access from public internet are restricted to `ingressIPv4` and `ingressIPv6` IP prefixes*
+*EC2 inbound SSH, DCV and HTTPS access from public internet are restricted to `ingressIPv4` and `ingressIPv6` IP prefixes*
 
 EBS volume
 

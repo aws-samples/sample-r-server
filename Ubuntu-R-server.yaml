@@ -159,6 +159,7 @@ Parameters:
     Description: https://posit.co/products/open-source/rstudio/ https://posit.co/products/ide/positron/
     AllowedValues:
       - "Yes"
+      - "Yes-with-HTTPS-reverse-proxy"
       - "No"
     Default: "No"
   installShinyServer:
@@ -728,8 +729,10 @@ Conditions:
     !And [!Condition createCloudFront, !Equals [!Ref cloudFrontLogging, "Yes"]]
 
   installRStudioServer: !Equals [!Ref installRStudioServer, "Yes"]
-  installRStudioDesktop: !Equals [!Ref installRStudioDesktop, "Yes"]
+  installRStudioDesktop: !Not [!Equals [!Ref installRStudioDesktop, "No"]]
   installShinyServer: !Equals [!Ref installShinyServer, "Yes"]
+  installReverseProxy:
+    !Equals [!Ref installRStudioDesktop, "Yes-with-HTTPS-reverse-proxy"]
 
   createCfRStudio:
     !And [!Condition enableCloudFront, !Condition installRStudioServer]
@@ -1094,16 +1097,16 @@ Resources:
             CidrIpv6: !Ref ingressIPv6
           - !Ref AWS::NoValue
         - !If
-          - installRStudioDesktop
-          - Description: HTTPS (IPv4)
+          - installReverseProxy
+          - Description: HTTPS DCV reverse proxy (IPv4)
             IpProtocol: tcp
             FromPort: 443
             ToPort: 443
             CidrIp: !Ref ingressIPv4
           - !Ref AWS::NoValue
         - !If
-          - installRStudioDesktop
-          - Description: HTTPS (IPv6)
+          - installReverseProxy
+          - Description: HTTPS DCV reverse proxy (IPv6)
             IpProtocol: tcp
             FromPort: 443
             ToPort: 443
@@ -1111,7 +1114,7 @@ Resources:
           - !Ref AWS::NoValue
         - !If
           - installRStudioDesktop
-          - Description: HTTP (IPv4)
+          - Description: ACME HTTP-01 challenge (IPv4)
             IpProtocol: tcp
             FromPort: 80
             ToPort: 80
@@ -1119,7 +1122,7 @@ Resources:
           - !Ref AWS::NoValue
         - !If
           - installRStudioDesktop
-          - Description: HTTP (IPv6)
+          - Description: ACME HTTP-01 challenge (IPv6)
             IpProtocol: tcp
             FromPort: 80
             ToPort: 80
@@ -1340,16 +1343,6 @@ Resources:
               mode: "000755"
               owner: "ubuntu"
               group: "ubuntu"
-            "/home/ubuntu/update-mountpoint-s3":
-              content: |
-                #!/bin/bash
-                cd /tmp
-                sudo rm -f /tmp/mount-s3.deb
-                wget -4 https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.deb
-                sudo apt-get install -y ./mount-s3.deb
-              mode: "000755"
-              owner: "ubuntu"
-              group: "ubuntu"
             "/etc/systemd/system/dcv-virtual-session.service":
               content: |
                 [Unit]
@@ -1417,14 +1410,14 @@ Resources:
 
                 export installRStudioDesktop="${installRStudioDesktop}"
                 case $installRStudioDesktop in
-                  Yes)
-                    systemctl enable --now dcv-virtual-session
-                    systemctl enable --now dcvserver
-                    ;;
                   No)
                     rm -f /etc/systemd/system/dcv-virtual-session.service
                     rm -f /opt/dcv-virtual-session.sh
                     rm -f /home/ubuntu/update-dcv
+                    ;;
+                  *)
+                    systemctl enable --now dcv-virtual-session
+                    systemctl enable --now dcvserver
                     ;;
                 esac
 
@@ -1524,6 +1517,15 @@ Resources:
 
                       # post cert renewal hook
                       mv /opt/dcv-renew-cert.sh /etc/letsencrypt/renewal-hooks/post/
+
+                      # HTTPS reverse proxy
+                      if ( echo "${installRStudioDesktop}" | grep -q -i "proxy" ); then
+                        rm -f /etc/ssl/certs/ssl-cert-snakeoil.pem
+                        rm -f /etc/ssl/private/ssl-cert-snakeoil.key
+                        ln -s -f /etc/letsencrypt/live/$IP_ADDR/fullchain.pem /etc/ssl/certs/ssl-cert-snakeoil.pem
+                        ln -s -f /etc/letsencrypt/live/$IP_ADDR/privkey.pem /etc/ssl/private/ssl-cert-snakeoil.key
+                        systemctl reload nginx
+                      fi
                     fi
                   fi
                 fi
@@ -1701,6 +1703,48 @@ Resources:
               ignoreErrors: "true"
         00_dcv_install:
           files:
+            "/opt/ReverseProxy":
+              content: !Sub |
+                # 
+                server {                      
+                  # HTTPS
+                  listen 443 ssl http2 default_server;
+                  listen [::]:443 ssl http2 default_server;
+
+                  server_name  _;
+
+                  ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
+                  ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+
+                  ssl_protocols TLSv1.3;
+                  ssl_prefer_server_ciphers on;
+
+                  ssl_session_cache shared:SSL:1m;
+                  ssl_session_timeout  10m;
+
+                  location / {
+                    proxy_pass https://localhost:8443;
+                    proxy_redirect https://localhost:8443 $scheme://$http_host/;
+
+                    proxy_http_version 1.1;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection "upgrade";
+
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+
+                    proxy_buffering off;
+                    
+                    client_max_body_size 20M;
+                    proxy_read_timeout 10m;
+                    proxy_send_timeout 10m;
+                  }
+                }
+              mode: "000644"
+              owner: "root"
+              group: "root"
             "/root/install-dcv.sh":
               content: !Sub |
                 #!/bin/bash
@@ -1784,6 +1828,29 @@ Resources:
                 systemctl daemon-reload
                 systemctl enable dcv-virtual-session
                 systemctl enable dcvserver
+
+                # Nginx reverse proxy to DCV
+                if ( echo "${installRStudioDesktop}" | grep -q -i "proxy" ); then
+                  # Nginx HTTPS proxy
+                  openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/ssl/private/ssl-cert-snakeoil.key -out /etc/ssl/certs/ssl-cert-snakeoil.pem -nodes -subj "/C=XX/ST=State/L=City/O=Company/OU=Dept/CN=Host"
+                  apt-get install -q -y nginx
+                  
+                  cp /etc/nginx/nginx.conf  /etc/nginx/nginx.conf."`date +"%Y-%m-%d"`"
+
+                  # disable gzip as per https://bugs.debian.org/773332
+                  sed -i "s/gzip on/gzip off/g" /etc/nginx/nginx.conf
+                  
+                  # disable default site
+                  rm -f /etc/nginx/sites-enabled/default
+                  
+                  # HTTPS proxy
+                  mv /opt/ReverseProxy /etc/nginx/sites-available/ReverseProxy
+                  ln -s /etc/nginx/sites-available/ReverseProxy /etc/nginx/sites-enabled/ReverseProxy
+
+                  systemctl enable --now nginx
+                else
+                  rm -f /opt/ReverseProxy
+                fi
 
                 rm -f ${!0}
               mode: "000740"
@@ -1871,7 +1938,7 @@ Resources:
 
                 # RStudio desktop: https://posit.co/download/rstudio-desktop/
                 rm -f *.deb
-                if [ "${installRStudioDesktop}" = "Yes" ]; then
+                if ( echo "${installRStudioDesktop}" | grep -q -i "Yes" ); then
                   curl -s -L -O ${RStudioDesktopURL}
                   apt-get install -q -y ./*.deb
 
@@ -1973,7 +2040,7 @@ Resources:
           $CFN_INIT -v --stack ${AWS::StackName} --resource ec2Instance --region ${AWS::Region} -c setup
 
           # Install desktop environment and DCV?
-          if [ "${installRStudioDesktop}" = "Yes" ]; then
+          if ( echo "${installRStudioDesktop}" | grep -q -i "Yes" ); then
             $CFN_INIT -v --stack ${AWS::StackName} --resource ec2Instance --region ${AWS::Region} -c dcv_install
           fi
 
@@ -2459,7 +2526,7 @@ Outputs:
     Description: CloudFront console
     Value: !Sub "https://console.aws.amazon.com/cloudfront/?region=${AWS::Region}"
 
-  RStudioServerUrl:
+  RStudioServerURL:
     Condition: createCfRStudio
     Description: RStudio Server URL ( login as ubuntu )
     Value: !Sub "https://${cfDistributionRStudio.DomainName}"
@@ -2468,3 +2535,15 @@ Outputs:
     Condition: createCfShiny
     Description: Shiny Server URL
     Value: !Sub "https://${cfDistributionShiny.DomainName}"
+
+  ReverseProxyURL:
+    Condition: installReverseProxy
+    Description: DCV reverse proxy URL ( login as ubuntu )
+    Value: !Sub
+      - "https://${IpAddress}/?username=ubuntu     ( dcv://ubuntu:@${IpAddress}:443 )"
+      - IpAddress:
+          !If [
+            displayPublicIP,
+            !GetAtt ec2Instance.PublicIp,
+            !GetAtt ec2Instance.PrivateIp,
+          ]
