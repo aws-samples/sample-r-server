@@ -8,9 +8,9 @@ This template provisions EC2 instance with [R](https://www.r-project.org/), and 
 
 ## Demo
 
-Demo showing RStudio Desktop, Positron, Shiny Server, RStudio Server and Paws library accessing S3
+Video showing [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/), [Shiny Server](https://posit.co/products/open-source/shiny-server/), [RStudio Server](https://posit.co/download/rstudio-server/), and [Paws](https://www.paws-r-sdk.com/) library accessing [Amazon S3](https://aws.amazon.com/s3/)
 
-https://github.com/user-attachments/assets/c177342f-b87d-4451-b2f0-7e0e0200287b
+<https://github.com/user-attachments/assets/c177342f-b87d-4451-b2f0-7e0e0200287b>
 
 ## Architecture Diagram
 
@@ -23,7 +23,7 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
 - [Ubuntu](https://ubuntu.com/aws) or [Ubuntu Pro](https://aws.amazon.com/about-aws/whats-new/2023/04/amazon-ec2-ubuntu-pro-subscription-model/) 24.04 LTS
   - [Docker Engine](https://docs.docker.com/engine/)
   - GPU driver and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) (NVIDIA [instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type))
-- Applications
+- R Applications
   - [R](https://www.r-project.org/) from [CRAN](https://cran.r-project.org/) (Comprehensive R Archive Network) project
     - [r2u](https://eddelbuettel.github.io/r2u/) (CRAN as Ubuntu Binaries) project with [bspm](https://cran4linux.github.io/bspm/) (Bridge to System Package Manager): `apt` integration for [fast](https://eddelbuettel.github.io/r2u/#brief-demo)  R package install
     - [Paws](https://www.paws-r-sdk.com/) (SDK for R): access to [AWS services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/)
@@ -32,7 +32,9 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
   - [RStudio Server](https://posit.co/download/rstudio-server/) (optional)
   - [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) (optional)
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
+- AWS Applications
   - [Mountpoint for Amazon S3](https://aws.amazon.com/s3/features/mountpoint/): [mount](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mountpoint.html) an [Amazon S3](https://aws.amazon.com/s3/) bucket as local file system
+  - [AWS CLI](https://aws.amazon.com/cli/) with [partial mode](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html#cli-usage-auto-prompt-modes) [auto-prompt](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html)
 - AWS Services
   - [Amazon CloudFront](https://aws.amazon.com/cloudfront/): secure web access to RStudio Server and Shiny Server (optional)
   - [Amazon DCV](https://aws.amazon.com/hpc/dcv/): secure high-performance remote graphical desktop access (optional)
@@ -105,7 +107,7 @@ Network
 Remote access
 
 - `ingressIPv4`: allowed IPv4 source prefix to EC2 instance, e.g. `1.2.3.4/32`. You can get your source IP from [https://checkip.amazonaws.com](https://checkip.amazonaws.com). Default is `0.0.0.0/0`
-- `ingressIPv6`: allowed IPv6 source prefix to EC2 instance. Default is `::/0`. Subnets in [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) do not have [IPv6 CIDR blocks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-ipv6-addresses.html) associated. Specify `fe80::/10` link local prefix to allow internal access only, or `::1/128` to block all inbound IPv6 access
+- `ingressIPv6`: allowed IPv6 source prefix to EC2 instance. Default is `::/0`. Subnets in [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) do not have [IPv6 CIDR blocks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-ipv6-addresses.html) associated. Specify `::1/128` to block all inbound IPv6 access
 - `allowSSHport`: allow inbound [SSH](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-ssh.html). Option does not affect [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html#ec2-instance-connect-connecting-console) access. Default is `Yes`
 
 *EC2 inbound SSH, DCV and HTTPS access from public internet are restricted to `ingressIPv4` and `ingressIPv6` IP prefixes*
