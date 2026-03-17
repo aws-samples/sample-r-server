@@ -185,7 +185,7 @@ To adjust your instance vCPUs count or memory size, you can [change instance typ
 
 ### NVIDIA GPU instance
 
-If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) `instanceType`, template will install GPU driver and provide NVIDIA repository access, which you can use to install additional NVIDIA software such as [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#meta-packages) and [cuDNN](https://docs.nvidia.com/deeplearning/cudnn/installation/latest/linux.html#meta-packages). Refer to community article [Install NVIDIA GPU driver, CUDA Toolkit, NVIDIA Container Toolkit on Amazon EC2 instances running Ubuntu Linux](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/) for installation guidance
+If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) `instanceType`, template will install GPU driver and provide NVIDIA repository access, which you can use to install additional NVIDIA software such as [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#meta-packages). Refer to community article [Install NVIDIA GPU driver, CUDA Toolkit, NVIDIA Container Toolkit on Amazon EC2 instances running Ubuntu Linux](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/) for installation guidance
 
 ### Updating software
 
@@ -198,7 +198,7 @@ If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 
 ### Restoring from backup
 
-If you enable AWS Backup, you can restore your [EC2 instance](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-ec2.html) from recovery points (backups) in your [backup vault](https://docs.aws.amazon.com/aws-backup/latest/devguide/vaults.html). The CloudFormation template creates an IAM role that grants AWS Backup permission to restore your backups. Role name can be located in your CoudFormation stack Resources section as the Physical ID value whose Logical ID value is `backupRestoreRole`
+If you enable AWS Backup (`enableBackup`), you can [restore](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-ec2.html) your EC2 instance from recovery points (backups) in your [backup vault](https://docs.aws.amazon.com/aws-backup/latest/devguide/vaults.html). The CloudFormation template creates an IAM role that grants AWS Backup permission to restore your backups. Role name can be located in your CoudFormation stack Resources section as the Physical ID value whose Logical ID value is `backupRestoreRole`
 
 ### Securing
 
@@ -209,7 +209,7 @@ To secure your EC2 instance, you may want to
   - Use [Amazon CloudFront](https://aws.amazon.com/cloudfront/) (`enableCloudFront`) with [VPC Origin](https://aws.amazon.com/blogs/aws/introducing-amazon-cloudfront-vpc-origins-enhanced-security-and-streamlined-operations-for-your-applications/) (`originType`) for public web access
   - Use [AWS WAF](https://aws.amazon.com/waf/) to protect your [CloudFront distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-awswaf.html)
   - Consider CloudFront [flat-rate pricing plans](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-flat-rate-pricing-plans-with-no-overages/) that combine CloudFront with multiple AWS services, and features [monthly price](https://aws.amazon.com/cloudfront/pricing/) with no overage charges regardless of whether your website goes viral or faces a DDoS attack
-  - Use [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) to request a [non-exportable public HTTPS certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-public-certificates.html) at [no additional charge](https://aws.amazon.com/certificate-manager/pricing/), and associate it with your [CloudFront distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-alternate-domain-names.html)
+  - Use [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) to [request](https://docs.aws.amazon.com/acm/latest/userguide/acm-public-certificates.html) a non-exportable public HTTPS certificate at [no additional charge](https://aws.amazon.com/certificate-manager/pricing/), and [associate](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-alternate-domain-names.html) it with your CloudFront distribution
 - Disable SSH access from public internet (`allowSSHport`)
   - Use [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html#ec2-instance-connect-connecting-console) or [SSM Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#start-ec2-console) for in-browser terminal access, or
   - Start a session using [AWS CLI](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#sessions-start-cli) or [SSH](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#sessions-start-ssh) with [Session Manager plugin for the AWS CLI](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
@@ -225,7 +225,7 @@ To secure your EC2 instance, you may want to
 
 To remove created resources, you will need to
 
-- [Delete](https://docs.aws.amazon.com/aws-backup/latest/devguide/deleting-backups.html) any recovery points in created backup vault
+- [Delete](https://docs.aws.amazon.com/aws-backup/latest/devguide/deleting-backups.html) any recovery points in created backup vault (if enabled)
 - [Disable](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingDisableAPITermination.html) EC2 instance termination protection (if enabled)
 - [Empty](https://docs.aws.amazon.com/AmazonS3/latest/userguide/empty-bucket.html) CloudFront logs S3 bucket (if enabled)
 - [Delete](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) CloudFormation stack
