@@ -233,7 +233,6 @@ There is no additional charge for using [AWS CloudFormation](https://aws.amazon.
 
 Where possible, template assigns all created resources with user-defined tags of key names `StackName` and `StackId`. You can [activate](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/activating-tags.html) them as [cost-allocation tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) to track your AWS costs on a detailed level. Refer to [AWS Billing User Guide](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html) for more information.
 
-
 ## Clean Up
 
 To remove created resources, you will need to
