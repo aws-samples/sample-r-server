@@ -221,6 +221,14 @@ To secure your EC2 instance, you may want to
 - Enable [Amazon Inspector](https://aws.amazon.com/inspector/) to [scan EC2 instance](https://docs.aws.amazon.com/inspector/latest/user/scanning-ec2.html) for software vulnerabilities and unintended network exposure
 - Enable [Amazon GuardDuty](https://aws.amazon.com/guardduty/) security monitoring service with [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/how-runtime-monitoring-works-ec2.html) and [Malware Protection for EC2](https://docs.aws.amazon.com/guardduty/latest/ug/malware-protection.html)
 
+
+## Cost
+
+There is no additional charge for using [AWS CloudFormation](https://aws.amazon.com/cloudformation/pricing/). You pay for AWS resources created using the template the same as if you had created them manually. You only pay for what you use, with no minimum fees and no required upfront commitments.
+
+Where possible, template assigns all created resources with user-defined tags of key names `StackName` and `StackId`. You can [activate](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/activating-tags.html) them as [cost-allocation tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) to track your AWS costs on a detailed level. Refer to [AWS Billing User Guide](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html) for more information.
+
+
 ## Clean Up
 
 To remove created resources, you will need to
