@@ -1978,6 +1978,10 @@ Resources:
                 # GDebi
                 apt-get install -q -y gdebi-core
 
+                # New Python Versions: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa
+                add-apt-repository ppa:deadsnakes/ppa -y
+                apt-get update -q
+
                 rm -f ${!0}
               mode: "000740"
               owner: "root"
