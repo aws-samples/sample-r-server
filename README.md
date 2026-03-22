@@ -1,10 +1,10 @@
 ## R-Server
 
-R and RStudio, Shiny and/or Positron on EC2
+R and RStudio, Shiny and Positron on EC2
 
 ## Description
 
-This solution provisions EC2 instance with [R](https://www.r-project.org/), and optionally [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/) and both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
+This solution provisions EC2 instance with [R](https://www.r-project.org/), and optionally installs [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/) and both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
 
 ## Demo
 
@@ -21,8 +21,9 @@ Video showing [RStudio Desktop](https://posit.co/products/open-source/rstudio), 
 The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides the following features:
 
 - [Ubuntu](https://ubuntu.com/aws) or [Ubuntu Pro](https://aws.amazon.com/about-aws/whats-new/2023/04/amazon-ec2-ubuntu-pro-subscription-model/) 24.04 LTS
+  - [Python 3](https://documentation.ubuntu.com/ubuntu-for-developers/howto/python-setup/)
   - [Docker Engine](https://docs.docker.com/engine/)
-  - GPU driver and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) (NVIDIA [instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type))
+  - [NVIDIA driver](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html) and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) (NVIDIA [instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type))
 - R Applications
   - [R](https://www.r-project.org/) from [CRAN](https://cran.r-project.org/) (Comprehensive R Archive Network) project
     - [r2u](https://eddelbuettel.github.io/r2u/) (CRAN as Ubuntu Binaries) project with [bspm](https://cran4linux.github.io/bspm/) (Bridge to System Package Manager): `apt` integration for [fast](https://eddelbuettel.github.io/r2u/#brief-demo)  R package install
@@ -46,7 +47,7 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
 
 ## License Agreement
 
-Although this repository is released under the MIT-0 license, its CloudFormation template install third party components.
+Although this repository is released under the MIT-0 license, its CloudFormation template installs third party components.
 Usage indicate license agreement acceptance of all software that is installed on EC2 instance, which include (but is not limited to) the following
 
 - R Project : [GPL-2 | GPL-3](https://www.r-project.org/Licenses/)
@@ -67,6 +68,7 @@ Template installs free versions of RStudio, Shiny Server and Positron, which are
 - [Amazon Lightsail for Research](https://aws.amazon.com/lightsail/research/) supports [RStudio Desktop](https://docs.aws.amazon.com/lightsail-for-research/latest/ug/tutorial-rstudio.html). Refer to [Getting started with Amazon Lightsail for Research: A tutorial using RStudio](https://aws.amazon.com/blogs/publicsector/getting-started-amazon-lightsail-research-tutorial-using-rstudio/) for more information
 - Amazon SageMaker AI supports [notebook instance with R](https://docs.aws.amazon.com/sagemaker/latest/dg/r-sagemaker-get-started.html) and [RStudio](https://docs.aws.amazon.com/sagemaker/latest/dg/rstudio.html). Refer to blog post [Get started with RStudio on Amazon SageMaker](https://aws.amazon.com/blogs/machine-learning/get-started-with-rstudio-on-amazon-sagemaker/) for more information
 - Blog post [Scaling RStudio/Shiny using Serverless Architecture and AWS Fargate](https://aws.amazon.com/blogs/architecture/scaling-rstudio-shiny-using-serverless-architecture-and-aws-fargate/) discuss a scalable, secure, and serverless architecture pattern to host RStudio Server
+- Blog post [Deploying a Statistical Compute Environment using R on Amazon EKS](https://aws.amazon.com/blogs/industries/deploying-a-statistical-compute-environment-using-r-on-amazon-eks/) describes how to deploy a statistical compute environment (SCE) that uses Posit Workbench, Connect and Package Manager.
 
 ## Requirements
 
