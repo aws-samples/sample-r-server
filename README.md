@@ -191,7 +191,7 @@ If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 
 ### Updating software
 
-[R packages](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html) are updated by Ubuntu [unattended upgrades](https://help.ubuntu.com/community/AutomaticSecurityUpdates). To update Posit software, download and install latest pacakges from the following links
+[R packages](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html) are updated by Ubuntu [unattended upgrades](https://help.ubuntu.com/community/AutomaticSecurityUpdates). To update Posit software, download and install latest packages from the following links
 
 - [RStudio Server](https://posit.co/download/rstudio-server/)
 - [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
