@@ -8,7 +8,7 @@ This solution provisions EC2 instance with [R](https://www.r-project.org/), and 
 
 ## Demo
 
-Video showing [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/), [Shiny Server](https://posit.co/products/open-source/shiny-server/), [RStudio Server](https://posit.co/download/rstudio-server/), and [Paws](https://www.paws-r-sdk.com/) library accessing [Amazon S3](https://aws.amazon.com/s3/)
+Video showing [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/), [Shiny Server](https://posit.co/products/open-source/shiny-server/), [RStudio Server](https://posit.co/products/open-source/rstudio-server/), and [Paws](https://www.paws-r-sdk.com/) library accessing [Amazon S3](https://aws.amazon.com/s3/)
 
 <https://github.com/user-attachments/assets/c177342f-b87d-4451-b2f0-7e0e0200287b>
 
@@ -85,13 +85,13 @@ Download [Ubuntu-R-server.yaml](https://raw.githubusercontent.com/aws-samples/sa
 
 The default values will install RStudio Server with Amazon CloudFront. You need to specify values for `ec2KeyPair`, `vpcID` and `subnetID`.
 
-Applications
+#### Applications
 
 - `installRStudioServer`: install [RStudio Server](https://posit.co/download/rstudio-server/). Default is `Yes`
 - `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. Default is `No`. For `Yes`, template will also install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) server for remote graphical desktop access. Select `Yes-with-HTTPS-reverse-proxy` to use DCV over HTTPS TCP port 443 in addition to default [DCV](https://docs.aws.amazon.com/dcv/latest/adminguide/manage-port-addr.html) TCP and UDP port 8443
 - `installShinyServer`: install [Shiny Server](https://posit.co/products/open-source/shiny-server/). Default is `No`
 
-EC2
+#### EC2
 
 - `ec2Name`: EC2 instance name
 - `ec2KeyPair`: [EC2 key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name. [Create key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) if necessary
@@ -99,14 +99,14 @@ EC2
 - `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`m7i.large`](https://aws.amazon.com/ec2/instance-types/m7i/).  Do verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
 - `ec2TerminationProtection`: enable [EC2 termination protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingDisableAPITermination.html) to prevent accidental deletion. Default is `Yes`
 
-Network
+#### Network
 
 - `vpcID`: [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) with internet connectivity. Select [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) if unsure
 - `subnetID`: subnet in selected VPC with internet connectivity. Select subnet in default VPC if unsure
 - `displayPublicIP`: set this to `No` only if your EC2 instance will not receive [public IP address](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html#concepts-public-addresses). EC2 private IP will be displayed in CloudFormation Outputs section instead. Default is `Yes`
 - `assignStaticIP`: associates a static public IPv4 address using [Elastic IP address](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html). Default is `Yes`
 
-Remote access
+#### Remote access
 
 - `ingressIPv4`: allowed IPv4 source prefix to EC2 instance, e.g. `1.2.3.4/32`. You can get your source IP from [https://checkip.amazonaws.com](https://checkip.amazonaws.com). Default is `0.0.0.0/0`
 - `ingressIPv6`: allowed IPv6 source prefix to EC2 instance. Default is `::/0`. Subnets in [default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) do not have [IPv6 CIDR blocks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/working-with-ipv6-addresses.html) associated. Specify `::1/128` to block all inbound IPv6 access
@@ -114,34 +114,34 @@ Remote access
 
 *EC2 inbound SSH, DCV and HTTPS access from public internet are restricted to `ingressIPv4` and `ingressIPv6` IP prefixes*
 
-EBS volume
+#### EBS volume
 
 - `volumeSize` : EBS root volume size in GiB
 - `volumeType` : `gp2` or `gp3` [general purpose](https://aws.amazon.com/ebs/general-purpose/) EBS type. Default is `gp3`
 
-Amazon CloudFront
+#### Amazon CloudFront
 
 - `enableCloudFront`: [create](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-creating-console.html) [Amazon CloudFront](https://aws.amazon.com/cloudfront/) distribution(s) to RStudio Server and/or Shiny Server. Associated charges are listed on [Amazon CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/) page. Default is `Yes`
 - `originType`: either `Custom Origin` or `VPC Origin`.  Default is `Custom Origin` which requires EC2 instance to have public internet IPv4 address. Most [AWS Regions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html#vpc-origins-supported-regions) support [VPC Origins](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-cloudfront-virtual-private-cloud-vpc-origins-shield-your-web-applications-from-public-internet/), which allow CloudFront to deliver content even if your EC2 instance is in a VPC private subnet. Ensure `assignStaticIP` is `Yes` if using `Custom Origin`.
 - `cloudFrontLogging`:  enable CloudFront [standard logging](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) to new S3 bucket. Default is `No`
 
-AWS Backup
+#### AWS Backup
 
 - `enableBackup` : EC2 data protection with [AWS Backup](https://aws.amazon.com/backup/). Associated charges are listed on [AWS Backup pricing](https://aws.amazon.com/backup/pricing) page. Default is `No`
 - `scheduleExpression` : start time of backup using [CRON expression](https://en.wikipedia.org/wiki/Cron#CRON_expression). Default is 1 am daily
 - `scheduleExpressionTimezone` : timezone in which the schedule expression is set. Default is `Etc/UTC`
 - `deleteAfterDays` :  number of days after backup creation that a recovery point is deleted. Default is `35`
 
-Posit download URLs
+#### Posit download URLs
 
 - `RStudioServerURL` : RStudio Server install URL
-- `RStudioDesktopURL` : Rstudio Desktop install URL
+- `RStudioDesktopURL` : RStudio Desktop install URL
 - `PositronURL` : Positron IDE install URL
 - `ShinyServerURL` : Shiny Server install URL
 
 *Template will use the above links to download and install Posit software*
 
-Others
+#### Others
 
 - `enableR53acmeSupport`: grant EC2 instance IAM permission for [ACME clients](https://letsencrypt.org/docs/client-options/) such as [Certbot](https://certbot.eff.org/) to use [DNS-01 challenge](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge) with your [Amazon Route 53](https://aws.amazon.com/route53/) [public hosted zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/AboutHZWorkingWith.html) to obtain free HTTPS/TLS certificates. For security reasons, DNS record access is restricted to **_acme-challenge.\*** TXT records using [resource record set permissions](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-permissions.html). Default is `Yes`
 
@@ -149,7 +149,7 @@ Others
 
 The following are available in **Outputs** section
 
-EC2 administration
+#### EC2 administration
 
 - `EC2console`: EC2 console URL to manage your EC2 instance
 - `EC2instanceID`: EC2 Instance ID
@@ -157,11 +157,13 @@ EC2 administration
 - `EC2serialConsole`: [EC2 Serial Console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-to-serial-console.html) URL. Functionality is available under [certain conditions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console-prerequisites.html)
 - `SSMsessionManager`: [SSM Session Manager](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-with-systems-manager-session-manager.html) URL
 
-EC2 IAM
+#### EC2 IAM
 
-- `EC2iamRole`: EC2 [IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html). Modify this to grant AWS service access
+- `EC2iamRole`: EC2 [IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
 
-Application access
+*Modify this to grant AWS service access*
+
+#### Application access
 
 - `RStudioServerUrl`: RStudio Server CloudFront URL
 - `ShinyServerUrl`: Shiny Server CloudFront URL
@@ -229,7 +231,7 @@ Amazon CloudFront (`enableCloudFront`) supports [HTTPS](https://docs.aws.amazon.
 
 Template will install a valid [IPv4 address certificate](https://letsencrypt.org/2026/03/11/shorter-certs-certbot) for Amazon DCV and HTTPS reverse proxy if `installRStudioDesktop` and `displayPublicIP` are `Yes`. IP address certificates are valid for 160 hours, just over six days, and [Certbot](https://letsencrypt.org/2026/03/11/shorter-certs-certbot) will attempt to renew them before expiry. To ensure proper operation, ensure `assignStaticIP` is set to `Yes`.
 
-## Cost
+## Pricing
 
 There is [no additional charge](https://aws.amazon.com/cloudformation/pricing/) for using AWS CloudFormation. You pay for AWS resources created using the template the same as if you had created them manually. You only pay for what you use, with no minimum fees and no required upfront commitments.
 
