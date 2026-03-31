@@ -1,6 +1,6 @@
 ## R-Server
 
-R and RStudio, Shiny and Positron on EC2
+R with RStudio Server, RStudio Desktop, Shiny and/or Positron on EC2
 
 ## Description
 
