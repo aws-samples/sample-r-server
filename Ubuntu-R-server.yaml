@@ -199,7 +199,7 @@ Parameters:
     Description: https://console.aws.amazon.com/ec2/#InstanceTypes
     AllowedPattern: "^[a-z\\-\\d\\.]+$"
     ConstraintDescription: Specify valid EC2 instance type
-    Default: m7i.large
+    Default: t3.medium
   ec2TerminationProtection:
     Type: String
     Description: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingDisableAPITermination.html

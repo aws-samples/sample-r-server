@@ -96,7 +96,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 - `ec2Name`: EC2 instance name
 - `ec2KeyPair`: [EC2 key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name. [Create key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) if necessary
 - `osVersion` : Ubuntu 24.04 or Ubuntu 24.04 Pro. Default is `Ubuntu 24.04 (x86_64)`
-- `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`m7i.large`](https://aws.amazon.com/ec2/instance-types/m7i/).  Do verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
+- `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`t3.medium`](https://aws.amazon.com/ec2/instance-types/t3/). Adjust [instance type/size](https://aws.amazon.com/ec2/instance-types/) accordingly accordingly based on your compute needs, and verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
 - `ec2TerminationProtection`: enable [EC2 termination protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingDisableAPITermination.html) to prevent accidental deletion. Default is `Yes`
 
 #### Network
@@ -134,16 +134,18 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 
 #### Posit download URLs
 
+Template will use the above links to download and install Posit software
+
 - `RStudioServerURL` : RStudio Server install URL
 - `RStudioDesktopURL` : RStudio Desktop install URL
 - `PositronURL` : Positron IDE install URL
 - `ShinyServerURL` : Shiny Server install URL
 
-*Template will use the above links to download and install Posit software*
-
 #### Others
 
 - `enableR53acmeSupport`: grant EC2 instance IAM permission for [ACME clients](https://letsencrypt.org/docs/client-options/) such as [Certbot](https://certbot.eff.org/) to use [DNS-01 challenge](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge) with your [Amazon Route 53](https://aws.amazon.com/route53/) [public hosted zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/AboutHZWorkingWith.html) to obtain free HTTPS/TLS certificates. For security reasons, DNS record access is restricted to **_acme-challenge.\*** TXT records using [resource record set permissions](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-permissions.html). Default is `Yes`
+
+Continue **Next** with [Configure stack options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html), `Review Stack`, and click **Submit** to launch your stack. It may take more than 30 minutes to provision the EC2 instance. After your stack has been successfully created, its status changes to **CREATE_COMPLETE**.
 
 ### CloudFormation Outputs
 
