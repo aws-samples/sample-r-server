@@ -33,9 +33,6 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
   - [RStudio Server](https://posit.co/download/rstudio-server/) (optional)
   - [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) (optional)
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
-- AWS Applications
-  - [Mountpoint for Amazon S3](https://aws.amazon.com/s3/features/mountpoint/): [mount](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mountpoint.html) an [Amazon S3](https://aws.amazon.com/s3/) bucket as local file system
-  - [AWS CLI](https://aws.amazon.com/cli/) with [partial mode](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html#cli-usage-auto-prompt-modes) [auto-prompt](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html)
 - AWS Services
   - [Amazon CloudFront](https://aws.amazon.com/cloudfront/): secure web access to RStudio Server and Shiny Server (optional)
   - [Amazon DCV](https://aws.amazon.com/hpc/dcv/): secure high-performance remote graphical desktop access (optional)
@@ -44,6 +41,9 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
   - [AWS Systems Manager Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html): browser-based terminal access
   - [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-eic.html): browser-based SSH (Linux)
   - [EC2 IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html): access to AWS services
+- AWS Applications
+  - [AWS CLI](https://aws.amazon.com/cli/) with [partial mode](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html#cli-usage-auto-prompt-modes) [auto-prompt](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html)
+  - [Mountpoint for Amazon S3](https://aws.amazon.com/s3/features/mountpoint/): [mount](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mountpoint-usage.html#using-mountpoint) an [Amazon S3](https://aws.amazon.com/s3/) bucket as local file system
 
 ## License Agreement
 
