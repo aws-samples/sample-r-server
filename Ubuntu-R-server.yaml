@@ -1696,6 +1696,9 @@ Resources:
                 curl -s -L -O https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.deb
                 apt-get install -q -y ./mount-s3.deb
 
+                # Amazon EFS Utils: https://github.com/aws/efs-utils/blob/master/INSTALL.md
+                curl https://amazon-efs-utils.aws.com/efs-utils-installer.sh | sh -s -- --install
+
                 rm -f ${!0}
               mode: "000740"
               owner: "root"

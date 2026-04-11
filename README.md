@@ -42,8 +42,9 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
   - [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-eic.html): browser-based SSH (Linux)
   - [EC2 IAM role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html): access to AWS services
 - AWS Applications
-  - [AWS CLI](https://aws.amazon.com/cli/) with [partial mode](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html#cli-usage-auto-prompt-modes) [auto-prompt](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html)
-  - [Mountpoint for Amazon S3](https://aws.amazon.com/s3/features/mountpoint/): [mount](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mountpoint-usage.html#using-mountpoint) an [Amazon S3](https://aws.amazon.com/s3/) bucket as local file system
+  - [AWS Command Line Interface (AWS CLI)](https://aws.amazon.com/cli/) with [partial mode](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html#cli-usage-auto-prompt-modes) [auto-prompt](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-prompting.html)
+  - [Amazon EFS client](https://docs.aws.amazon.com/efs/latest/ug/using-amazon-efs-utils.html): mount [Amazon EFS](https://aws.amazon.com/efs/) and [Amazon S3 Files](https://aws.amazon.com/s3/features/files/)
+  - [Mountpoint for Amazon S3](https://aws.amazon.com/s3/features/mountpoint/): mount [Amazon S3](https://aws.amazon.com/s3/) bucket as local file system
 
 ## License Agreement
 
