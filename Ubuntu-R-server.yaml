@@ -138,13 +138,13 @@ Metadata:
         default: "Enable CloudFront logging"
 
       RStudioServerURL:
-        default: "RStudio Server (Ubuntu 24.04): https://posit.co/download/rstudio-server/"
+        default: "RStudio Server (Ubuntu 24): https://posit.co/download/rstudio-server/"
       RStudioDesktopURL:
-        default: "RStudio Desktop (Ubuntu 24.04): https://posit.co/download/rstudio-desktop/"
+        default: "RStudio Desktop (Ubuntu 24): https://posit.co/download/rstudio-desktop/"
       PositronURL:
-        default: "Positron: https://positron.posit.co/download.html"
+        default: "Positron (Debian-based Linux x64): https://positron.posit.co/download.html"
       ShinyServerURL:
-        default: "Shiny Server: https://posit.co/download/shiny-server/"
+        default: "Shiny Server (Ubuntu): https://posit.co/download/shiny-server/"
 
 Parameters:
   installRStudioServer:
@@ -672,7 +672,7 @@ Parameters:
   PositronURL:
     Type: String
     AllowedPattern: .+
-    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.03.0-212-x64.deb
+    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.04.0-269-x64.deb
   ShinyServerURL:
     Type: String
     AllowedPattern: .+
