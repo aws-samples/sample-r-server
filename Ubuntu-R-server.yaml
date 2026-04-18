@@ -672,7 +672,7 @@ Parameters:
   PositronURL:
     Type: String
     AllowedPattern: .+
-    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.04.0-269-x64.deb
+    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.04.1-10-x64.deb
   ShinyServerURL:
     Type: String
     AllowedPattern: .+
@@ -731,18 +731,13 @@ Conditions:
   installRStudioServer: !Equals [!Ref installRStudioServer, "Yes"]
   installRStudioDesktop: !Not [!Equals [!Ref installRStudioDesktop, "No"]]
   installShinyServer: !Equals [!Ref installShinyServer, "Yes"]
-  installReverseProxy:
-    !Equals [!Ref installRStudioDesktop, "Yes-with-HTTPS-reverse-proxy"]
+  installReverseProxy: !Equals [!Ref installRStudioDesktop, "Yes-with-HTTPS-reverse-proxy"]
 
-  createCfRStudio:
-    !And [!Condition enableCloudFront, !Condition installRStudioServer]
-  cfVPCOriginRStudio:
-    !And [!Condition createCfRStudio, !Equals [!Ref originType, "VPC Origin"]]
+  createCfRStudio: !And [!Condition enableCloudFront, !Condition installRStudioServer]
+  cfVPCOriginRStudio: !And [!Condition createCfRStudio, !Equals [!Ref originType, "VPC Origin"]]
 
-  createCfShiny:
-    !And [!Condition enableCloudFront, !Condition installShinyServer]
-  cfVPCOriginShiny:
-    !And [!Condition createCfShiny, !Equals [!Ref originType, "VPC Origin"]]
+  createCfShiny: !And [!Condition enableCloudFront, !Condition installShinyServer]
+  cfVPCOriginShiny: !And [!Condition createCfShiny, !Equals [ !Ref originType, "VPC Origin"]]
 
 Mappings:
   # EC2 instance connect: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-prerequisites.html#ec2-instance-connect-setup-security-group
@@ -1712,7 +1707,9 @@ Resources:
             "/opt/ReverseProxy":
               content: !Sub |
                 # 
-                server {                      
+                server {
+                  root /var/www/html;
+
                   # HTTPS
                   listen 443 ssl http2 default_server;
                   listen [::]:443 ssl http2 default_server;
@@ -1952,6 +1949,12 @@ Resources:
 
                   curl -s -L -O ${PositronURL}
                   apt-get install -q -y ./*.deb
+
+                  # VS Code: https://code.visualstudio.com/docs/languages/r
+                  snap install code --classic
+                  # R Extension for Visual Studio Code: https://github.com/REditorSupport/vscode-R/wiki/Installation:-Linux
+                  sudo su - -c "R -e \"install.packages('languageserver')\""
+                  sudo -u ubuntu code --install-extension "REditorSupport.r"
                 fi
 
                 # Paws (AWS SDK for R): https://github.com/paws-r/paws#installation
@@ -1980,6 +1983,9 @@ Resources:
 
                 # GDebi
                 apt-get install -q -y gdebi-core
+
+                # Python venv
+                apt-get install -q -y python3-venv
 
                 # New Python Versions: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa
                 add-apt-repository ppa:deadsnakes/ppa -y
