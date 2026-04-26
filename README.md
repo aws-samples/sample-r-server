@@ -30,8 +30,9 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
     - [Paws](https://www.paws-r-sdk.com/) (SDK for R): access to [AWS services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/)
     - [reticulate](https://rstudio.github.io/reticulate/) (R interface to Python): interoperability between R and Python
     - [tidyverse](https://tidyverse.org/): simplify and streamline data science workflows
+    - [languageserver](https://github.com/REditorSupport/languageserver/): [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) for R
   - [RStudio Server](https://posit.co/download/rstudio-server/) (optional)
-  - [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) (optional)
+  - [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [Visual Studio Code](https://code.visualstudio.com/) (optional)
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
 - AWS Services
   - [Amazon CloudFront](https://aws.amazon.com/cloudfront/): secure web access to RStudio Server and Shiny Server (optional)
