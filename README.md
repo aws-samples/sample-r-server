@@ -1,10 +1,10 @@
 ## R-Server
 
-R with RStudio Server, RStudio Desktop, Shiny and/or Positron on EC2
+R with RStudio Server, RStudio Desktop, Shiny, Positron and VS Code on EC2 instance
 
 ## Description
 
-This solution provisions EC2 instance with [R](https://www.r-project.org/), and optionally installs [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/) and both [RStudio Deskop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
+This solution provisions EC2 instance with [R](https://www.r-project.org/), and optionally installs [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), [RStudio Deskop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [Visual Studio Code](https://code.visualstudio.com/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
 
 ## Demo
 
@@ -58,6 +58,7 @@ Usage indicate license agreement acceptance of all software that is installed on
 - RStudio Desktop : [AGPL v3](https://posit.co/products/open-source/rstudio)
 - Shiny Server : [AGPL v3](https://posit.co/products/open-source/shiny-server/)
 - Positron : [Elastic License 2.0](https://positron.posit.co/licensing.html)
+- VS Code: [MIT-0 License](https://github.com/microsoft/vscode?tab=MIT-1-ov-file#readme)
 - [Paws](https://github.com/paws-r/paws) package : [Apache 2.0](https://github.com/paws-r/paws/blob/main/LICENSE.txt)
 - Amazon DCV : [DCV EULA](https://www.amazondcv.com/eula.html)
 
@@ -90,7 +91,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 #### Applications
 
 - `installRStudioServer`: install [RStudio Server](https://posit.co/download/rstudio-server/). Default is `Yes`
-- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio) and [Positron](https://posit.co/products/ide/positron/) IDEs. Default is `No`. For `Yes`, template will also install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) server for remote graphical desktop access. Select `Yes-with-HTTPS-reverse-proxy` to use DCV over HTTPS TCP port 443 in addition to default [DCV](https://docs.aws.amazon.com/dcv/latest/adminguide/manage-port-addr.html) TCP and UDP port 8443
+- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [VS Code](https://code.visualstudio.com/) IDEs. Default is `No`. For `Yes`, template will also install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) server for remote graphical desktop access. Select `Yes-with-HTTPS-reverse-proxy` to use DCV over HTTPS TCP port 443 in addition to default [DCV](https://docs.aws.amazon.com/dcv/latest/adminguide/manage-port-addr.html) TCP and UDP port 8443
 - `installShinyServer`: install [Shiny Server](https://posit.co/products/open-source/shiny-server/). Default is `No`
 
 #### EC2
