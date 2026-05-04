@@ -192,6 +192,20 @@ Default login and password is `ubuntu` and `EC2InstanceID` value. To change pass
 
 To adjust your instance vCPUs count or memory size, you can [change instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/change-instance-type-of-ebs-backed-instance.html)
 
+### Multiple user
+
+The default login user is `ubuntu`. To create additional user, e.g. `newuser`
+
+```
+USER=newuser
+
+sudo useradd -m -s /bin/bash $USER 
+if [ -f /opt/dcv/dcv-users.txt ]; then
+  echo $USER | sudo tee -a /opt/dcv/dcv-users.txt
+fi
+sudo passwd $USER
+```
+
 ### NVIDIA GPU instance
 
 If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) `instanceType`, template will install GPU driver and provide NVIDIA repository access, which you can use to install additional NVIDIA software such as [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#meta-packages). Refer to community article [Install NVIDIA GPU driver, CUDA Toolkit, NVIDIA Container Toolkit on Amazon EC2 instances running Ubuntu Linux](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/) for installation guidance
