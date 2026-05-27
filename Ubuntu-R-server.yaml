@@ -665,15 +665,15 @@ Parameters:
   RStudioServerURL:
     Type: String
     AllowedPattern: .+
-    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.04.0-526-amd64.deb
+    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.05.0-218-amd64.deb
   RStudioDesktopURL:
     Type: String
     AllowedPattern: .+
-    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.04.0-526-amd64.deb
+    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.05.0-218-amd64.deb
   PositronURL:
     Type: String
     AllowedPattern: .+
-    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.04.1-10-x64.deb
+    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.05.2-3-x64.deb
   ShinyServerURL:
     Type: String
     AllowedPattern: .+
@@ -1911,6 +1911,8 @@ Resources:
 
                   # VS Code: https://code.visualstudio.com/docs/languages/r
                   snap install code --classic
+                  # AWS Toolkit for Visual Studio Code: https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/setup-toolkit.html
+                  sudo -u ubuntu code --install-extension amazonwebservices.aws-toolkit-vscode
                   # R Extension for Visual Studio Code: https://github.com/REditorSupport/vscode-R/wiki/Installation:-Linux
                   sudo su - -c "R -e \"install.packages('languageserver')\""
                   sudo -u ubuntu code --install-extension "REditorSupport.r"
