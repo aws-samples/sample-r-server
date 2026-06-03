@@ -144,7 +144,7 @@ Metadata:
       PositronURL:
         default: "Positron (Debian-based Linux x64): https://positron.posit.co/download.html"
       ShinyServerURL:
-        default: "Shiny Server (Ubuntu): https://posit.co/download/shiny-server/"
+        default: "Shiny Server (Ubuntu): https://docs.posit.co/shiny-server/#installation"
 
 Parameters:
   installRStudioServer:
@@ -673,7 +673,7 @@ Parameters:
   PositronURL:
     Type: String
     AllowedPattern: .+
-    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.05.2-3-x64.deb
+    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.06.0-211-x64.deb
   ShinyServerURL:
     Type: String
     AllowedPattern: .+
@@ -756,6 +756,9 @@ Mappings:
     ap-southeast-5:
       IpPrefix: 43.216.87.48/29
       Ipv6Prefix: 2406:da10:84f9:9e00::/56
+    ap-southeast-6:
+      IpPrefix: 3.103.24.208/29
+      Ipv6Prefix: 2406:da12:80b3:4800::/56
     ap-southeast-7:
       IpPrefix: 43.209.155.96/29
       Ipv6Prefix: 2406:da14:85c5:5b00::/56
