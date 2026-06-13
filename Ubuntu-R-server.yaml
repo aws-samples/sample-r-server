@@ -2468,13 +2468,17 @@ Outputs:
 
   DCVUrl:
     Condition: installRStudioDesktop
-    Description: DCV URL ( login as ubuntu )
-    Value:
-      !If [
-        displayPublicIP,
-        !Sub "https://${ec2Instance.PublicIp}:8443/?username=ubuntu  ( dcv://ubuntu:@${ec2Instance.PublicIp} )",
-        !Sub "https://${ec2Instance.PrivateIp}:8443/?username=ubuntu ( dcv://ubuntu:@${ec2Instance.PrivateIp} )"
-      ]
+    Description: DCV URL (login as ubuntu)
+    Value: !Sub
+      - "https://${IpAddress}:${listenPort}/?username=ubuntu     ( dcv://ubuntu:@${IpAddress}:${listenPort} )"
+      - IpAddress: !If [displayPublicIP, !GetAtt ec2Instance.PublicIp, !GetAtt ec2Instance.PrivateIp]
+
+  DCVhttpsUrl:
+    Condition: installReverseProxy
+    Description: DCV reverse proxy URL ( login as ubuntu )
+    Value: !Sub
+      - "https://${IpAddress}/?username=ubuntu     ( dcv://ubuntu:@${IpAddress}:443 )"
+      - IpAddress: !If [displayPublicIP, !GetAtt ec2Instance.PublicIp, !GetAtt ec2Instance.PrivateIp]
 
   CloudFrontConsole:
     Condition: createCloudFront
@@ -2490,10 +2494,3 @@ Outputs:
     Condition: createCfShiny
     Description: Shiny Server URL
     Value: !Sub "https://${cfDistributionShiny.DomainName}"
-
-  ReverseProxyURL:
-    Condition: installReverseProxy
-    Description: DCV reverse proxy URL ( login as ubuntu )
-    Value: !Sub
-      - "https://${IpAddress}/?username=ubuntu     ( dcv://ubuntu:@${IpAddress}:443 )"
-      - IpAddress: !If [displayPublicIP, !GetAtt ec2Instance.PublicIp, !GetAtt ec2Instance.PrivateIp]

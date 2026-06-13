@@ -91,7 +91,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 #### Applications
 
 - `installRStudioServer`: install [RStudio Server](https://posit.co/download/rstudio-server/). Default is `Yes`
-- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [VS Code](https://code.visualstudio.com/) IDEs. Default is `No`. For `Yes`, template will also install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) server for remote graphical desktop access. Select `Yes-with-HTTPS-reverse-proxy` to use DCV over HTTPS TCP port 443 in addition to default [DCV](https://docs.aws.amazon.com/dcv/latest/adminguide/manage-port-addr.html) TCP and UDP port 8443
+- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [VS Code](https://code.visualstudio.com/) IDEs. Default is `No`. For `Yes*`, template will also install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) server for remote graphical desktop access. Select `Yes-with-HTTPS-reverse-proxy` to use DCV over HTTPS TCP port 443 in addition to default DCV port 8443
 - `installShinyServer`: install [Shiny Server](https://posit.co/products/open-source/shiny-server/). Default is `No`
 
 #### EC2
@@ -173,6 +173,7 @@ The following are available in **Outputs** section
 - `RStudioServerUrl`: RStudio Server CloudFront URL
 - `ShinyServerUrl`: Shiny Server CloudFront URL
 - `DCVUrl`: Amazon DCV [web browser client](https://docs.aws.amazon.com/dcv/latest/userguide/client-web.html) and [native client](https://docs.aws.amazon.com/dcv/latest/userguide/client.html) URLs to access desktop IDEs. Native clients can be installed from [https://www.amazondcv.com/](https://www.amazondcv.com/)
+- `DCVhttpsUrl`: DCV HTTPS reverse proxy URLs
 
 Default login and password is `ubuntu` and `EC2InstanceID` value. To change password, login to EC2 instance (e.g. through `EC2instanceConnect` or `SSMSessionManager`) and run the command `sudo passwd ubuntu`
 
