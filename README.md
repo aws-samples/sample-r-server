@@ -36,7 +36,7 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
 - AWS Services
   - [Amazon CloudFront](https://aws.amazon.com/cloudfront/): secure web access to RStudio Server and Shiny Server (optional)
-  - [Amazon DCV](https://aws.amazon.com/hpc/dcv/): secure high-performance remote graphical desktop access (optional)
+  - [Amazon DCV](https://aws.amazon.com/hpc/dcv/): secure high-performance remote graphical desktop access with multi-user support (optional)
   - [AWS Backup](https://aws.amazon.com/backup/): EC2 instance data protection (optional)
 - Administration
   - [AWS Systems Manager Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html): browser-based terminal access
@@ -186,6 +186,16 @@ Default login and password is `ubuntu` and `EC2InstanceID` value. To change pass
 - [Implement RStudio on your AWS environment and access your data lake using AWS Lake Formation permissions](https://aws.amazon.com/blogs/machine-learning/implement-rstudio-on-your-aws-environment-and-access-your-data-lake-using-aws-lake-formation-permissions/) shows how to integrate RStudio on SageMaker and EC2 into your data lake architectures
 
 *You will need to modify EC2 IAM permissions (`EC2iamRole`) to provide access to desired AWS services such as SageMaker and S3*
+
+### Troubleshooting
+
+To troubleshoot any installation issue, you can view contents of the following log files
+
+- `/var/log/cloud-init-output.log`
+- `/var/log/install-cfn-helper.log`
+- `/var/log/install-dcv.log`
+- `/var/log/install-r.log`
+- `/var/log/install-sw.log`
 
 ## About EC2 instance
 
