@@ -99,7 +99,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 - `ec2Name`: EC2 instance name
 - `ec2KeyPair`: [EC2 key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name. [Create key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) if necessary
 - `osVersion` : Ubuntu 24.04 or Ubuntu 24.04 Pro. Default is `Ubuntu 24.04 (x86_64)`
-- `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`t3.medium`](https://aws.amazon.com/ec2/instance-types/t3/). Adjust [instance type/size](https://aws.amazon.com/ec2/instance-types/) accordingly accordingly based on your compute needs, and verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
+- `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`m7i.large`](https://aws.amazon.com/ec2/instance-types/t3/). Adjust [instance type/size](https://aws.amazon.com/ec2/instance-types/) accordingly accordingly based on your compute needs, and verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
 - `ec2TerminationProtection`: enable [EC2 termination protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingDisableAPITermination.html) to prevent accidental deletion. Default is `Yes`
 
 #### Network
@@ -125,7 +125,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 #### Amazon CloudFront
 
 - `enableCloudFront`: [create](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-creating-console.html) [Amazon CloudFront](https://aws.amazon.com/cloudfront/) distribution(s) to RStudio Server and/or Shiny Server. Associated charges are listed on [Amazon CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/) page. Default is `Yes`
-- `originType`: either `Custom Origin` or `VPC Origin`.  Default is `Custom Origin` which requires EC2 instance to have public internet IPv4 address. Most [AWS Regions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html#vpc-origins-supported-regions) support [VPC Origins](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-cloudfront-virtual-private-cloud-vpc-origins-shield-your-web-applications-from-public-internet/), which allow CloudFront to deliver content even if your EC2 instance is in a VPC private subnet. Ensure `assignStaticIP` is `Yes` if using `Custom Origin`.
+- `originType`: either `Custom Origin` or `VPC Origin`. Default is [`VPC Origin`](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-cloudfront-virtual-private-cloud-vpc-origins-shield-your-web-applications-from-public-internet/) which is supported by most [AWS Regions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html#vpc-origins-supported-regions), and allows EC2 instance to be in a private subnet with outbound internet IPv4 connectivity. `Custom Origin` requires EC2 instance to have public internet IPv4 address with `assignStaticIP` assigned to `Yes`.
 - `cloudFrontLogging`:  enable CloudFront [standard logging](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) to new S3 bucket. Default is `No`
 
 #### AWS Backup
@@ -240,7 +240,7 @@ To secure your EC2 instance, you may want to
 
 - Set a strong `ubuntu` login user password
 - Restrict direct EC2 access to your IP address only (`ingressIPv4` and `ingressIPv6`)
-  - Use [Amazon CloudFront](https://aws.amazon.com/cloudfront/) (`enableCloudFront`) with [VPC Origin](https://aws.amazon.com/blogs/aws/introducing-amazon-cloudfront-vpc-origins-enhanced-security-and-streamlined-operations-for-your-applications/) (`originType`) for public web access
+  - Use [Amazon CloudFront](https://aws.amazon.com/cloudfront/) (`enableCloudFront`) with [VPC Origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html) (`originType`) for public web access
   - Use [AWS WAF](https://aws.amazon.com/waf/) to protect your [CloudFront distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-awswaf.html)
   - Consider CloudFront [flat-rate pricing plans](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-flat-rate-pricing-plans-with-no-overages/) that combine CloudFront with multiple AWS services, and features [monthly price](https://aws.amazon.com/cloudfront/pricing/) with no overage charges regardless of whether your website goes viral or faces a DDoS attack
   - Use [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) to [request](https://docs.aws.amazon.com/acm/latest/userguide/acm-public-certificates.html) a non-exportable public HTTPS certificate at [no additional charge](https://aws.amazon.com/certificate-manager/pricing/), and [associate](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-alternate-domain-names.html) it with your CloudFront distribution
