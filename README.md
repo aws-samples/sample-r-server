@@ -199,11 +199,18 @@ To [request access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-a
 
 ### Configure AI Provider
 
-Select `Amazon Bedrock` as *AI Provider* and select a [Region](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html#model-regions-anthropic) with Anthropic Claude models. Use either `EC2` or do not enter a *AWS Profile* value.
+Select `Amazon Bedrock` as *AI Provider* and select a [Region](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html#model-regions-anthropic) with Anthropic Claude models. Enter either `EC2` or do not specify a *AWS Profile* value.
 
 Below video shows Posit Assistant installation and configuration with RStudio Server
 
 https://github.com/user-attachments/assets/d4a3f70d-5652-4029-ba8f-4176cd626fde
+
+Refer to [Posit Assistant](https://assistant.posit.co/docs/getting-started/providers/#configuring-providers) or [Positron](https://positron.posit.co/assistant-getting-started.html#configure-a-language-model-provider) documentation for configuration details.
+
+### Using Posit Assistant
+
+Refer to [Getting Started](https://assistant.posit.co/docs/getting-started/) guide
+
 
 ## Using R with AWS
 
