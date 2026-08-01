@@ -954,6 +954,37 @@ Resources:
             Action: [sts:AssumeRole]
       Path: /
       Policies:
+        - PolicyName: BedrockInference
+          PolicyDocument:
+            # https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_id-based-policy-examples.html
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - bedrock:ListFoundationModels
+                  - bedrock:GetFoundationModel
+                  - bedrock:ListInferenceProfiles
+                  - bedrock:GetInferenceProfile
+                  - bedrock:InvokeModel
+                  - bedrock:InvokeModelWithResponseStream
+                Resource: "*"
+                Condition:
+                  IpAddress:
+                    aws:SourceIp: 0.0.0.0/0
+        - PolicyName: BedrockMarketplaceSubscription
+          PolicyDocument:
+            # https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - aws-marketplace:Subscribe
+                  - aws-marketplace:Unsubscribe
+                  - aws-marketplace:ViewSubscriptions
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    aws:CalledViaLast: bedrock.amazonaws.com
         - !If
           - installRStudioDesktop
           - PolicyName: dcvLicensing
