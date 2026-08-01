@@ -1,10 +1,10 @@
 ## R-Server
 
-R with RStudio Server, RStudio Desktop, Shiny, Positron and VS Code on EC2 instance
+R with RStudio Server, RStudio Desktop, Shiny, Positron and VS Code on EC2 instance. Includes Amazon Bedrock support for Posit Assistant.
 
 ## Description
 
-This solution provisions EC2 instance with [R](https://www.r-project.org/), and optionally installs [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), [RStudio Deskop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [Visual Studio Code](https://code.visualstudio.com/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. Template will install GPU driver and provide access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
+This solution provisions EC2 instance with [R](https://www.r-project.org/), and optionally installs [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), [RStudio Deskop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [Visual Studio Code](https://code.visualstudio.com/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. [Amazon Bedrock](https://aws.amazon.com/bedrock) is available as language model provider for [Posit Assistant](https://assistant.posit.co/). Template will install GPU driver and provide access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
 
 ## Demo
 
@@ -34,6 +34,7 @@ The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides t
   - [RStudio Server](https://posit.co/download/rstudio-server/) (optional)
   - [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [Visual Studio Code](https://code.visualstudio.com/) (optional)
   - [Shiny Server](https://posit.co/products/open-source/shiny-server/) (optional)
+  - [Posit Assistant](https://assistant.posit.co/) with [Amazon Bedrock](https://aws.amazon.com/bedrock/) support (optional)
 - AWS Services
   - [Amazon CloudFront](https://aws.amazon.com/cloudfront/): secure web access to RStudio Server and Shiny Server (optional)
   - [Amazon DCV](https://aws.amazon.com/hpc/dcv/): secure high-performance remote graphical desktop access with multi-user support (optional)
@@ -177,16 +178,6 @@ The following are available in **Outputs** section
 
 Default login and password is `ubuntu` and `EC2InstanceID` value. To change password, login to EC2 instance (e.g. through `EC2instanceConnect` or `SSMSessionManager`) and run the command `sudo passwd ubuntu`
 
-## Using AWS in R
-
-- Blog post [Getting started with R on Amazon Web Services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/) walks through how to use RStudio and Paws package
-- [Paws documentation](https://www.paws-r-sdk.com/#documentation) lists code examples, tutorials and workshops
-- [Using R with Amazon SageMaker](https://aws.amazon.com/blogs/machine-learning/using-r-with-amazon-sagemaker/) outlines how to use the reticulate package with Amazon SageMaker AI
-- [Amazon SageMaker Example Notebooks](https://sagemaker-examples.readthedocs.io/en/latest/) has some R with SageMaker [examples](https://sagemaker-examples.readthedocs.io/en/latest/r_examples/index.html)
-- [Implement RStudio on your AWS environment and access your data lake using AWS Lake Formation permissions](https://aws.amazon.com/blogs/machine-learning/implement-rstudio-on-your-aws-environment-and-access-your-data-lake-using-aws-lake-formation-permissions/) shows how to integrate RStudio on SageMaker and EC2 into your data lake architectures
-
-*You will need to modify EC2 IAM permissions (`EC2iamRole`) to provide access to desired AWS services such as SageMaker and S3*
-
 ### Troubleshooting
 
 To troubleshoot any installation issue, you can view contents of the following log files
@@ -196,6 +187,33 @@ To troubleshoot any installation issue, you can view contents of the following l
 - `/var/log/install-dcv.log`
 - `/var/log/install-r.log`
 - `/var/log/install-sw.log`
+
+
+## Posit Assistant
+
+[Posit Assistant](https://assistant.posit.co/) is a data analysis assistant for Positron and RStudio. It works with range of model providers including [Posit AI](https://posit.ai/) and [Amazon Bedrock](https://aws.amazon.com/bedrock/). 
+
+### Amazon Bedrock model access
+
+To [request access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) to Amazon Bedrock foundation models, select and interact with a model from the model catalog in the [Amazon Bedrock console playground](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/homeplayground). *For Anthropic models, you must complete the First Time Use (FTU) form before invoking the model.*
+
+### Configure AI Provider
+
+Select `Amazon Bedrock` as *AI Provider* and select a [Region](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html#model-regions-anthropic) with Anthropic Claude models. Use either `EC2` or do not enter a *AWS Profile* value.
+
+Below video shows Posit Assistant installation and configuration with RStudio Server
+
+https://github.com/user-attachments/assets/d4a3f70d-5652-4029-ba8f-4176cd626fde
+
+## Using R with AWS
+
+- Blog post [Getting started with R on Amazon Web Services](https://aws.amazon.com/blogs/opensource/getting-started-with-r-on-amazon-web-services/) walks through how to use RStudio and Paws package
+- [Paws documentation](https://www.paws-r-sdk.com/#documentation) lists code examples, tutorials and workshops
+- [Using R with Amazon SageMaker](https://aws.amazon.com/blogs/machine-learning/using-r-with-amazon-sagemaker/) outlines how to use the reticulate package with Amazon SageMaker AI
+- [Amazon SageMaker Example Notebooks](https://sagemaker-examples.readthedocs.io/en/latest/) has some R with SageMaker [examples](https://sagemaker-examples.readthedocs.io/en/latest/r_examples/index.html)
+- [Implement RStudio on your AWS environment and access your data lake using AWS Lake Formation permissions](https://aws.amazon.com/blogs/machine-learning/implement-rstudio-on-your-aws-environment-and-access-your-data-lake-using-aws-lake-formation-permissions/) shows how to integrate RStudio on SageMaker and EC2 into your data lake architectures
+
+*You will need to modify EC2 IAM permissions (`EC2iamRole`) to provide access to desired AWS services such as SageMaker and S3*
 
 ## About EC2 instance
 
