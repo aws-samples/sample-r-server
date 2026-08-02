@@ -198,15 +198,21 @@ To verify Amazon Bedrock [model access](https://docs.aws.amazon.com/bedrock/late
 
 To use Anthropic models, you must complete the First Time Use (FTU) form before invoking the model. [Create](https://docs.aws.amazon.com/awssupport/latest/user/case-management.html) a support case if you are unable to use any models. For information about model pricing, see [Amazon Bedrock pricing](https://aws.amazon.com/bedrock/pricing/)
 
-### Configure LLM Provider
+### Install and Configure Posit Assistant
 
-To use Bedrock with Posit Assistant in RStudio, `Configure another provider` and select `Amazon Bedrock`. Select a [Region](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html#model-regions-anthropic) with Anthropic Claude models. Enter either `EC2` or do not specify a *AWS Profile* value.
+Refer to documentation for [RStudio](https://assistant.posit.co/docs/downloads/rstudio) or [Positron](https://assistant.posit.co/docs/downloads/positron/) installation overview. 
+
+#### RStudio
+
+Show sidebar to install and configure Positron Assistant. Select `Configure another provider` and configure `Amazon Bedrock`. Select a [Region](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html#model-regions-anthropic) with Anthropic Claude models. Enter either `EC2` or do not specify a *AWS Profile* value.
 
 Below video shows installation and configuration in RStudio Server
 
 <https://github.com/user-attachments/assets/d4a3f70d-5652-4029-ba8f-4176cd626fde>
 
-Refer to documentation for [RStudio](https://assistant.posit.co/docs/downloads/rstudio) or [Positron](https://assistant.posit.co/docs/downloads/positron/) installation details. 
+#### Positron
+
+[Extension](https://p3m.dev/client/#/repos/openvsx/packages/posit.assistant/overview) is enabled and will sign in to Amazon Bedrock by default. Refer to [Positron documentation](https://positron.posit.co/assistant-providers.html#amazon-bedrock) for additional configuration options.
 
 ### Using Posit Assistant
 
