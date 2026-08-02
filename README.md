@@ -254,7 +254,7 @@ If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 
 ### Updating software
 
-[R packages](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html) are updated by Ubuntu [unattended upgrades](https://help.ubuntu.com/community/AutomaticSecurityUpdates). To update Posit software, download and install latest packages from the following links
+[R packages](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html) can be updated by Ubuntu [unattended upgrades](https://help.ubuntu.com/community/AutomaticSecurityUpdates). To update Posit software, download and install latest packages from the following links
 
 - [RStudio Server](https://posit.co/download/rstudio-server/)
 - [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
@@ -274,7 +274,6 @@ To secure your EC2 instance, you may want to
   - Use [Amazon CloudFront](https://aws.amazon.com/cloudfront/) (`enableCloudFront`) with [VPC Origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html) (`originType`) for public web access
   - Use [AWS WAF](https://aws.amazon.com/waf/) to protect your [CloudFront distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-awswaf.html)
   - Consider CloudFront [flat-rate pricing plans](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-flat-rate-pricing-plans-with-no-overages/) that combine CloudFront with multiple AWS services, and features [monthly price](https://aws.amazon.com/cloudfront/pricing/) with no overage charges regardless of whether your website goes viral or faces a DDoS attack
-  - Use [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) to [request](https://docs.aws.amazon.com/acm/latest/userguide/acm-public-certificates.html) a non-exportable public HTTPS certificate at [no additional charge](https://aws.amazon.com/certificate-manager/pricing/), and [associate](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-alternate-domain-names.html) it with your CloudFront distribution
 - Disable SSH access from public internet (`allowSSHport`)
   - Use [EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-methods.html#ec2-instance-connect-connecting-console) or [SSM Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#start-ec2-console) for in-browser terminal access, or
   - Start a session using [AWS CLI](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#sessions-start-cli) or [SSH](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html#sessions-start-ssh) with [Session Manager plugin for the AWS CLI](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
