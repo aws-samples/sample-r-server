@@ -204,7 +204,7 @@ Refer to documentation for [RStudio](https://assistant.posit.co/docs/downloads/r
 
 #### RStudio
 
-Show sidebar to install and configure Positron Assistant. Select `Configure another provider` and configure `Amazon Bedrock`. Select a [Region](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html#model-regions-anthropic) with Anthropic Claude models. Enter either `EC2` or do not specify a *AWS Profile* value.
+From RStudio, show sidebar to install and configure Posit Assistant. Select `Configure another provider` and configure `Amazon Bedrock`. Select a [Region](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html#model-regions-anthropic) with Anthropic Claude models. Enter either `EC2` or do not specify a *AWS Profile* value.
 
 Below video shows installation and configuration in RStudio Server
 
