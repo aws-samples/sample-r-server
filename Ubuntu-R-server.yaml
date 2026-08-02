@@ -251,7 +251,7 @@ Parameters:
     AllowedValues:
       - "Yes"
       - "No"
-    Default: "Yes"
+    Default: "No"
 
   volumeSize:
     Type: Number
@@ -1063,7 +1063,11 @@ Resources:
             FromPort: 22
             ToPort: 22
             CidrIp: !Ref ingressIPv4
-          - !Ref AWS::NoValue
+          - Description: SSH (IPv4)
+            IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
+            CidrIp: 127.0.0.1/32
         - !If
           - createSgSSH
           - Description: SSH (IPv6)
@@ -1071,7 +1075,11 @@ Resources:
             FromPort: 22
             ToPort: 22
             CidrIpv6: !Ref ingressIPv6
-          - !Ref AWS::NoValue
+          - Description: SSH (IPv6)
+            IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
+            CidrIpv6: ::1/128
         - !If
           - installRStudioDesktop
           - Description: DCV (IPv4)
@@ -2227,7 +2235,7 @@ Resources:
         HttpVersion: http2and3
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
-          MinimumProtocolVersion: TLSv1.2_2025
+          MinimumProtocolVersion: TLSv1.3_2025
         DefaultCacheBehavior:
           AllowedMethods: !Split [",", "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE"]
           CachedMethods:
@@ -2448,7 +2456,7 @@ Resources:
         WebACLId: !Ref AWS::NoValue
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
-          MinimumProtocolVersion: TLSv1.2_2025
+          MinimumProtocolVersion: TLSv1.3_2025
         DefaultCacheBehavior:
           AllowedMethods: !Split [",", "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE"]
           CachedMethods:
