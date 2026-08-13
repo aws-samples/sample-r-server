@@ -81,9 +81,9 @@ Metadata:
 
     ParameterLabels:
       installRStudioServer:
-        default: "Install RStudio Server"
+        default: "Install RStudio Server/Posit Workbench"
       installRStudioDesktop:
-        default: "Install RStudio Desktop, Positron and VS Code IDEs"
+        default: "Install RStudio Desktop/RStudio Desktop Pro, Positron and VS Code IDEs"
       installShinyServer:
         default: "Install Shiny Server"
       enableR53acmeSupport:
@@ -665,15 +665,17 @@ Parameters:
   RStudioServerURL:
     Type: String
     AllowedPattern: .+
+    Description: "Posit Workbench: https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install"
     Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.07.1-147-amd64.deb
   RStudioDesktopURL:
     Type: String
     AllowedPattern: .+
+    Description: "RStudio Desktop Pro: https://posit.co/download/rstudio-desktop-pro/"
     Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.07.1-147-amd64.deb
   PositronURL:
     Type: String
     AllowedPattern: .+
-    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.07.1-5-x64.deb
+    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.08.1-2-x64.deb
   ShinyServerURL:
     Type: String
     AllowedPattern: .+
@@ -2009,7 +2011,7 @@ Resources:
               ignoreErrors: "true"
     Properties:
       ImageId:
-        # https://ubuntu.com/server/docs/cloud-images/amazon-ec2 https://ubuntu.com/blog/ubuntu-pro-is-now-part-of-the-aws-ec2-console
+        # https://ubuntu.com/aws/docs/aws-how-to/instances/find-ubuntu-images/
         !If [
           useUbuntu2404x86,
           "{{resolve:ssm:/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id}}",

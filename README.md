@@ -4,7 +4,7 @@ R with RStudio Server, RStudio Desktop, Shiny, Positron and VS Code on EC2 insta
 
 ## Description
 
-This solution provisions EC2 instance with [R](https://www.r-project.org/), and optionally installs [RStudio Server](https://posit.co/download/rstudio-server/), [Shiny Server](https://posit.co/download/shiny-server/), [RStudio Deskop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [Visual Studio Code](https://code.visualstudio.com/) IDEs. The web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. [Amazon Bedrock](https://aws.amazon.com/bedrock) is available as language model provider for [Posit Assistant](https://assistant.posit.co/). Template will install GPU driver and provide access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
+This solution provisions EC2 instance with [R](https://www.r-project.org/), and optionally installs [RStudio Server](https://posit.co/download/rstudio-server/)/[Posit Workbench](https://posit.co/products/enterprise/workbench), [Shiny Server](https://posit.co/download/shiny-server/), [RStudio Deskop](https://posit.co/products/open-source/rstudio)/[RStudio Desktop Pro](https://posit.co/blog/rstudio-desktop-pro), [Positron](https://posit.co/products/ide/positron/) and [Visual Studio Code](https://code.visualstudio.com/) IDEs. Web and desktop applications can be accessed securely through [Amazon CloudFront](https://aws.amazon.com/cloudfront/) and [Amazon DCV](https://aws.amazon.com/hpc/dcv/) respectively. [Amazon Bedrock](https://aws.amazon.com/bedrock) is available as language model provider for [Posit Assistant](https://assistant.posit.co/). GPU driver will be installed with access to additional [NVIDIA software](https://repost.aws/articles/ARWGxLArMBQ4y1MKoSHTq3gQ/install-nvidia-gpu-driver-cuda-toolkit-nvidia-container-toolkit-on-amazon-ec2-instances-running-ubuntu-linux) if a [NVIDIA GPU instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type) is specified.
 
 ## Demo
 
@@ -65,7 +65,7 @@ Usage indicate license agreement acceptance of all software that is installed on
 
 ### About Posit Software
 
-Template installs free versions of RStudio, Shiny Server and Positron, which are created by [Posit Software, PBC](https://posit.co/about/). Company offers [enterprise versions](https://posit.co/products/enterprise/workbench/) including [RStudio IDE integration](https://posit.co/use-cases/sagemaker/) with [Amazon SageMaker AI](https://docs.aws.amazon.com/sagemaker/latest/dg/rstudio.html)
+RStudio, Shiny Server and Positron are created by [Posit Software, PBC](https://posit.co/about/). Company offers commercial versions including [Posit Workbench](https://posit.co/products/enterprise/workbench/), and supports [Sagemakerintegration](https://posit.co/use-cases/sagemaker/)
 
 ## Other options
 
@@ -91,8 +91,8 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 
 #### Applications
 
-- `installRStudioServer`: install [RStudio Server](https://posit.co/download/rstudio-server/). Default is `Yes`
-- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [VS Code](https://code.visualstudio.com/) IDEs. Default is `No`. For `Yes*`, template will also install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) server for remote graphical desktop access. Select `Yes-with-HTTPS-reverse-proxy` to use DCV over HTTPS TCP port 443 in addition to default DCV port 8443
+- `installRStudioServer`: install [RStudio Server](https://posit.co/download/rstudio-server/). Default is `Yes`. If you wish to install [Posit Workbench](https://posit.co/products/enterprise/workbench) instead, modify [`RStudioServerURL`](#posit-download-urls) below
+- `installRStudioDesktop`: install [RStudio Desktop](https://posit.co/products/open-source/rstudio), [Positron](https://posit.co/products/ide/positron/) and [VS Code](https://code.visualstudio.com/) IDEs. Default is `No`. For `Yes*`, template will also install [Amazon DCV](https://aws.amazon.com/hpc/dcv/) server for remote graphical desktop access. Select `Yes-with-HTTPS-reverse-proxy` to use DCV over HTTPS TCP port 443 in addition to default DCV TCP/UDP ports 8443. If you wish to install [RStudio Desktop Pro](https://posit.co/blog/rstudio-desktop-pro) instead, modify [`RStudioDesktopURL`](#posit-download-urls) below
 - `installShinyServer`: install [Shiny Server](https://posit.co/products/open-source/shiny-server/). Default is `No`
 
 #### EC2
@@ -138,10 +138,10 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 
 #### Posit download URLs
 
-Template will use the above links to download and install Posit software
+Template will use the below links to download and install Posit software
 
-- `RStudioServerURL` : RStudio Server install URL
-- `RStudioDesktopURL` : RStudio Desktop install URL
+- `RStudioServerURL` : RStudio Server [download URL](https://posit.co/download/rstudio-server/). To install [Posit Workbench](https://posit.co/products/enterprise/workbench) instead, replace [URL](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install) value
+- `RStudioDesktopURL` : RStudio Desktop install URL. To install RStudio Desktop Pro instead, replace [URL](https://posit.co/download/rstudio-desktop-pro/) value
 - `PositronURL` : Positron IDE install URL
 - `ShinyServerURL` : Shiny Server install URL
 
@@ -256,10 +256,10 @@ If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 
 [R packages](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html) can be updated by Ubuntu [unattended upgrades](https://help.ubuntu.com/community/AutomaticSecurityUpdates). To update Posit software, download and install latest packages from the following links
 
-- [RStudio Server](https://docs.posit.co/ide/user/#rstudio-server-oss-downloads)
-- [RStudio Desktop](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads)
+- [RStudio Server](https://posit.co/download/rstudio-server/) / [Posit Workbench](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install)
+- [RStudio Desktop](https://posit.co/download/rstudio-desktop/) / [RStudio Desktop Pro](https://posit.co/download/rstudio-desktop-pro/)
 - [Positron](https://positron.posit.co/download.html)
-- [Shiny Server](https://docs.posit.co/shiny-server/#installation)
+- [Shiny Server](https://posit.co/download/shiny-server/)
 
 ### Restoring from backup
 
