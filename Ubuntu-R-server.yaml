@@ -666,12 +666,12 @@ Parameters:
     Type: String
     AllowedPattern: .+
     Description: "Posit Workbench: https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install"
-    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.07.1-147-amd64.deb
+    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.08.0-187-amd64.deb
   RStudioDesktopURL:
     Type: String
     AllowedPattern: .+
     Description: "RStudio Desktop Pro: https://posit.co/download/rstudio-desktop-pro/"
-    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.07.1-147-amd64.deb
+    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.08.0-187-amd64.deb
   PositronURL:
     Type: String
     AllowedPattern: .+
@@ -1942,21 +1942,27 @@ Resources:
                 # RStudio server: https://posit.co/download/rstudio-server/
                 rm -f *.deb
                 if [ "${installRStudioServer}" = "Yes" ]; then
-                  curl -s -L -O ${RStudioServerURL}
-                  apt-get install -q -y ./*.deb
-                  systemctl enable rstudio-server
+                  if ( curl -I ${RStudioServerURL} | grep -q "[2-3]0" ); then
+                    curl -s -L -O ${RStudioServerURL}
+                    apt-get install -q -y ./*.deb
+                    systemctl enable rstudio-server
+                  fi
                 fi
 
                 # RStudio desktop: https://posit.co/download/rstudio-desktop/
                 rm -f *.deb
                 if ( echo "${installRStudioDesktop}" | grep -q -i "Yes" ); then
-                  curl -s -L -O ${RStudioDesktopURL}
-                  apt-get install -q -y ./*.deb
+                  if ( curl -I ${RStudioServerURL} | grep -q "[2-3]0[0-9]" ); then
+                    curl -s -L -O ${RStudioDesktopURL}
+                    apt-get install -q -y ./*.deb
+                  fi
 
                   rm -f *.deb
 
-                  curl -s -L -O ${PositronURL}
-                  apt-get install -q -y ./*.deb
+                  if ( curl -I ${PositronURL} | grep -q "[2-3]0[0-9]" ); then
+                    curl -s -L -O ${PositronURL}
+                    apt-get install -q -y ./*.deb
+                  fi
 
                   # VS Code: https://code.visualstudio.com/docs/languages/r
                   snap install code --classic
@@ -1983,9 +1989,11 @@ Resources:
                 if [ "${installShinyServer}" = "Yes" ]; then
                   sudo su - -c "R -e \"install.packages('shiny')\""
                   sudo su - -c "R -e \"install.packages('rmarkdown')\""
-                  curl -s -L -O ${ShinyServerURL}
-                  apt-get install -q -y ./*.deb
-                  systemctl enable shiny-server
+                  if ( curl -I ${ShinyServerURL} | grep -q "[2-3]0[0-9]" ); then
+                    curl -s -L -O ${ShinyServerURL}
+                    apt-get install -q -y ./*.deb
+                    systemctl enable shiny-server
+                  fi
                 fi
 
                 # git
@@ -2212,10 +2220,9 @@ Resources:
       cfn_nag:
         rules_to_suppress:
           - id: W70
-            reason: "TLSv1.2_2025 is enabled"
-    #checkov:skip=CKV_AWS_68: "Unable to associate WAF for stacks launched outside us-east-1 Region. User to associate WAF manually or subscribe flat-rate CloudFront plan with WAF"
+            reason: "TLSv1.3_2025 is enabled"
     #checkov:skip=CKV_AWS_86: "Access Logging is enabled"
-    #checkov:skip=CKV_AWS_174: "TLSv1.2_2025 is enabled"
+    #checkov:skip=CKV_AWS_174: "TLSv1.3_2025 is enabled"
     Properties:
       DistributionConfig:
         Origins:
@@ -2234,6 +2241,7 @@ Resources:
                   - TLSv1.2
         Enabled: true
         Comment: !Sub ${AWS::StackName}-RStudioServer
+        WebACLId: !Ref AWS::NoValue
         HttpVersion: http2and3
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
@@ -2432,10 +2440,9 @@ Resources:
       cfn_nag:
         rules_to_suppress:
           - id: W70
-            reason: "TLSv1.2_2025 is enabled"
-    #checkov:skip=CKV_AWS_68: "Unable to associate WAF for stacks launched outside us-east-1 Region. User to associate WAF manually or subscribe flat-rate CloudFront plan with WAF"
+            reason: "TLSv1.3_2025 is enabled"
     #checkov:skip=CKV_AWS_86: "Access Logging is enabled"
-    #checkov:skip=CKV_AWS_174: "TLSv1.2_2025 is enabled"
+    #checkov:skip=CKV_AWS_174: "TLSv1.3_2025 is enabled"
     Properties:
       DistributionConfig:
         Origins:
@@ -2454,8 +2461,8 @@ Resources:
                   - TLSv1.2
         Enabled: true
         Comment: !Sub ${AWS::StackName}-ShinyServer
-        HttpVersion: http2and3
         WebACLId: !Ref AWS::NoValue
+        HttpVersion: http2and3
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
           MinimumProtocolVersion: TLSv1.3_2025
