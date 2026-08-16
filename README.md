@@ -256,10 +256,10 @@ If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 
 [R packages](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html) can be updated by Ubuntu [unattended upgrades](https://help.ubuntu.com/community/AutomaticSecurityUpdates). To update Posit software, download and install latest packages from the following links
 
-- [RStudio Server](https://posit.co/download/rstudio-server/) / [Posit Workbench](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install)
-- [RStudio Desktop](https://posit.co/download/rstudio-desktop/) / [RStudio Desktop Pro](https://posit.co/download/rstudio-desktop-pro/)
+- [RStudio Server](https://docs.posit.co/ide/user/#rstudio-server-oss-downloads) / [Posit Workbench](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install)
+- [RStudio Desktop](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads) / [RStudio Desktop Pro](https://docs.posit.co/ide/user/#direct-downloads-commercial)
 - [Positron](https://positron.posit.co/download.html)
-- [Shiny Server](https://posit.co/download/shiny-server/)
+- [Shiny Server](https://docs.posit.co/shiny-server/#installation)
 
 ### Restoring from backup
 
