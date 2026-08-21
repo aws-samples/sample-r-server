@@ -666,12 +666,12 @@ Parameters:
     Type: String
     AllowedPattern: .+
     Description: "Posit Workbench: https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install"
-    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.08.0-187-amd64.deb
+    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.08.1-195-amd64.deb
   RStudioDesktopURL:
     Type: String
     AllowedPattern: .+
     Description: "RStudio Desktop Pro: https://docs.posit.co/ide/user/#direct-downloads-commercial"
-    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.08.0-187-amd64.deb
+    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.08.1-195-amd64.deb
   PositronURL:
     Type: String
     AllowedPattern: .+
@@ -1942,7 +1942,7 @@ Resources:
                 # RStudio server: https://posit.co/download/rstudio-server/
                 rm -f *.deb
                 if [ "${installRStudioServer}" = "Yes" ]; then
-                  if ( curl -I ${RStudioServerURL} | grep -q "[2-3]0" ); then
+                  if ( curl -I ${RStudioServerURL} | grep -q "[2-3]0[0-9]" ); then
                     curl -s -L -O ${RStudioServerURL}
                     apt-get install -q -y ./*.deb
                     systemctl enable rstudio-server
@@ -1952,7 +1952,7 @@ Resources:
                 # RStudio desktop: https://posit.co/download/rstudio-desktop/
                 rm -f *.deb
                 if ( echo "${installRStudioDesktop}" | grep -q -i "Yes" ); then
-                  if ( curl -I ${RStudioServerURL} | grep -q "[2-3]0[0-9]" ); then
+                  if ( curl -I ${RStudioDesktopURL} | grep -q "[2-3]0[0-9]" ); then
                     curl -s -L -O ${RStudioDesktopURL}
                     apt-get install -q -y ./*.deb
                   fi
