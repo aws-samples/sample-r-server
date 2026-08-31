@@ -2005,6 +2005,9 @@ Resources:
                 # Python venv
                 apt-get install -q -y python3-venv
 
+                # symlink python to python3
+                apt-get install -q -y python-is-python3
+                
                 # New Python Versions: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa
                 add-apt-repository ppa:deadsnakes/ppa -y
                 apt-get update -q
