@@ -666,16 +666,16 @@ Parameters:
     Type: String
     AllowedPattern: .+
     Description: "Posit Workbench: https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install"
-    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.08.2-200-amd64.deb
+    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.09.0-174-amd64.deb
   RStudioDesktopURL:
     Type: String
     AllowedPattern: .+
     Description: "RStudio Desktop Pro: https://docs.posit.co/ide/user/#direct-downloads-commercial"
-    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.08.2-200-amd64.deb
+    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.09.0-174-amd64.deb
   PositronURL:
     Type: String
     AllowedPattern: .+
-    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.08.2-4-x64.deb
+    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.09.1-2-x64.deb
   ShinyServerURL:
     Type: String
     AllowedPattern: .+
