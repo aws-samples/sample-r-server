@@ -20,7 +20,7 @@ Video showing [RStudio Desktop](https://posit.co/products/open-source/rstudio), 
 
 The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides the following features:
 
-- [Ubuntu](https://ubuntu.com/aws) or [Ubuntu Pro](https://aws.amazon.com/about-aws/whats-new/2023/04/amazon-ec2-ubuntu-pro-subscription-model/) 24.04 LTS
+- [Ubuntu](https://ubuntu.com/aws) or [Ubuntu Pro](https://aws.amazon.com/about-aws/whats-new/2023/04/amazon-ec2-ubuntu-pro-subscription-model/) 26.04/24.04 LTS
   - [Python 3](https://documentation.ubuntu.com/ubuntu-for-developers/howto/python-setup/)
   - [Docker Engine](https://docs.docker.com/engine/)
   - [NVIDIA driver](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html) and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) (NVIDIA [instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-nvidia-driver.html#nvidia-driver-instance-type))
@@ -99,7 +99,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 
 - `ec2Name`: EC2 instance name
 - `ec2KeyPair`: [EC2 key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name. [Create key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) if necessary
-- `osVersion` : Ubuntu 26.04/24.04 or Ubuntu 26.04/24.04 Pro. Default is `Ubuntu 24.04 (x86_64)`
+- `osVersion` : Ubuntu or Ubuntu Pro 26.04/24.04. Default is `Ubuntu 24.04 (x86_64)`
 - `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`m7i.large`](https://aws.amazon.com/ec2/instance-types/t3/). Adjust [instance type/size](https://aws.amazon.com/ec2/instance-types/) accordingly accordingly based on your compute needs, and verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
 - `ec2TerminationProtection`: enable [EC2 termination protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingDisableAPITermination.html) to prevent accidental deletion. Default is `Yes`
 
