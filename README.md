@@ -141,7 +141,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 Template will use the below links to download and install Posit software
 
 - `RStudioServerURL` : RStudio Server [download URL](https://docs.posit.co/ide/user/download.html#rstudio-server-oss-downloads). To install Posit Workbench instead, replace [URL](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install) value
-- `RStudioDesktopURL` : RStudio Desktop [download URL](https://docs.posit.co/ide/user/download.html#rstudio-ide-oss-downloads). To install RStudio Desktop Pro instead, replace [URL](https://docs.posit.co/ide/user/#direct-downloads-commercial) value
+- `RStudioDesktopURL` : RStudio Desktop [download URL](https://docs.posit.co/ide/user/download.html#rstudio-ide-oss-downloads). To install RStudio Desktop Pro instead, replace [URL](https://docs.posit.co/ide/user/download.html#direct-downloads-commercial) value
 - `PositronURL` : Positron IDE [download URL](https://positron.posit.co/download)
 - `ShinyServerURL` : Shiny Server download URL
 
