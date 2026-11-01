@@ -99,7 +99,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 
 - `ec2Name`: EC2 instance name
 - `ec2KeyPair`: [EC2 key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name. [Create key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) if necessary
-- `osVersion` : Ubuntu 24.04 or Ubuntu 24.04 Pro. Default is `Ubuntu 24.04 (x86_64)`
+- `osVersion` : Ubuntu 26.04/24.04 or Ubuntu 26.04/24.04 Pro. Default is `Ubuntu 24.04 (x86_64)`
 - `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`m7i.large`](https://aws.amazon.com/ec2/instance-types/t3/). Adjust [instance type/size](https://aws.amazon.com/ec2/instance-types/) accordingly accordingly based on your compute needs, and verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
 - `ec2TerminationProtection`: enable [EC2 termination protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingDisableAPITermination.html) to prevent accidental deletion. Default is `Yes`
 
@@ -140,8 +140,8 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 
 Template will use the below links to download and install Posit software
 
-- `RStudioServerURL` : RStudio Server [download URL](https://docs.posit.co/ide/user/#rstudio-server-oss-downloads). To install Posit Workbench instead, replace [URL](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install) value
-- `RStudioDesktopURL` : RStudio Desktop [download URL](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads). To install RStudio Desktop Pro instead, replace [URL](https://docs.posit.co/ide/user/#direct-downloads-commercial) value
+- `RStudioServerURL` : RStudio Server [download URL](https://docs.posit.co/ide/user/download.html#rstudio-server-oss-downloads). To install Posit Workbench instead, replace [URL](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install) value
+- `RStudioDesktopURL` : RStudio Desktop [download URL](https://docs.posit.co/ide/user/download.html#rstudio-ide-oss-downloads). To install RStudio Desktop Pro instead, replace [URL](https://docs.posit.co/ide/user/#direct-downloads-commercial) value
 - `PositronURL` : Positron IDE [download URL](https://positron.posit.co/download)
 - `ShinyServerURL` : Shiny Server download URL
 
