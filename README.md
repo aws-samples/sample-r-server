@@ -143,7 +143,7 @@ Template will use the below links to download and install Posit software
 - `RStudioServerURL` : RStudio Server [download URL](https://docs.posit.co/ide/user/download.html#rstudio-server-oss-downloads). To install Posit Workbench instead, replace [URL](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install) value
 - `RStudioDesktopURL` : RStudio Desktop [download URL](https://docs.posit.co/ide/user/download.html#rstudio-ide-oss-downloads). To install RStudio Desktop Pro instead, replace [URL](https://docs.posit.co/ide/user/download.html#direct-downloads-commercial) value
 - `PositronURL` : Positron IDE [download URL](https://positron.posit.co/download)
-- `ShinyServerURL` : Shiny Server download URL
+- `ShinyServerURL` : Shiny Server [download URL](https://docs.posit.co/shiny-server/#installation)
 
 #### Others
 
@@ -256,8 +256,8 @@ If you specify a [NVIDIA GPU](https://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 
 [R packages](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html) can be updated by Ubuntu [unattended upgrades](https://help.ubuntu.com/community/AutomaticSecurityUpdates). To update Posit software, download and install latest packages from the following links
 
-- [RStudio Server](https://docs.posit.co/ide/user/#rstudio-server-oss-downloads) / [Posit Workbench](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install)
-- [RStudio Desktop](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads) / [RStudio Desktop Pro](https://docs.posit.co/ide/user/#direct-downloads-commercial)
+- [RStudio Server](https://docs.posit.co/ide/user/download.html#rstudio-server-oss-downloads) / [Posit Workbench](https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install)
+- [RStudio Desktop](https://docs.posit.co/ide/user/download.html#rstudio-ide-oss-downloads) / [RStudio Desktop Pro](https://docs.posit.co/ide/user/download.html#direct-downloads-commercial)
 - [Positron](https://positron.posit.co/download.html)
 - [Shiny Server](https://docs.posit.co/shiny-server/#installation)
 
