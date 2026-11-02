@@ -16,6 +16,8 @@ Video showing [RStudio Desktop](https://posit.co/products/open-source/rstudio), 
 
 <img alt="image" src="R-server.png">
 
+RStudio Server and Shiny Server inbound access is restricted to CloudFront origin-facing servers only using [CloudFront managed prefix list](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/LocationsOfEdgeServers.html#managed-prefix-list)
+
 ## Overview of features
 
 The [CloudFormation](https://aws.amazon.com/cloudformation/) template provides the following features:
