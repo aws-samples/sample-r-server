@@ -657,7 +657,7 @@ Parameters:
     AllowedValues:
       - "Custom Origin"
       - "VPC Origin"
-    Default: "VPC Origin"
+    Default: "Custom Origin"
   cloudFrontLogging:
     Type: String
     Description: Logging to new S3 bucket ( https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html )

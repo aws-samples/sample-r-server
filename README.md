@@ -101,8 +101,8 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 
 - `ec2Name`: EC2 instance name
 - `ec2KeyPair`: [EC2 key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) name. [Create key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) if necessary
-- `osVersion` : Ubuntu or Ubuntu Pro 26.04/24.04. Default is `Ubuntu 24.04 (x86_64)`
-- `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`m7i.large`](https://aws.amazon.com/ec2/instance-types/t3/). Adjust [instance type/size](https://aws.amazon.com/ec2/instance-types/) accordingly accordingly based on your compute needs, and verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
+- `osVersion` : Ubuntu or Ubuntu Pro 26.04/24.04. Default is `Ubuntu 26.04 (x86_64)`
+- `instanceType`: EC2 [instance type](https://aws.amazon.com/ec2/instance-types/). Default is [`m7i.large`](https://aws.amazon.com/ec2/instance-types/t3/). Adjust [instance type/size](https://aws.amazon.com/ec2/instance-types/) accordingly based on your compute needs, and verify instance family [Region availability](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-regions.html)
 - `ec2TerminationProtection`: enable [EC2 termination protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingDisableAPITermination.html) to prevent accidental deletion. Default is `Yes`
 
 #### Network
@@ -128,7 +128,7 @@ The default values will install RStudio Server with Amazon CloudFront. You need 
 #### Amazon CloudFront
 
 - `enableCloudFront`: [create](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-creating-console.html) [Amazon CloudFront](https://aws.amazon.com/cloudfront/) distribution(s) to RStudio Server and/or Shiny Server. Associated charges are listed on [Amazon CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/) page. Default is `Yes`
-- `originType`: either `Custom Origin` or `VPC Origin`. Default is [`VPC Origin`](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-cloudfront-virtual-private-cloud-vpc-origins-shield-your-web-applications-from-public-internet/) which is supported by most [AWS Regions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html#vpc-origins-supported-regions), and allows EC2 instance to be in a private subnet with outbound internet IPv4 connectivity. `Custom Origin` requires EC2 instance to have public internet IPv4 address with `assignStaticIP` assigned to `Yes`.
+- `originType`: either `Custom Origin` or `VPC Origin`. [VPC Origin](https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-cloudfront-virtual-private-cloud-vpc-origins-shield-your-web-applications-from-public-internet/) is supported by most [AWS Regions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html#vpc-origins-supported-regions), and allows EC2 instance to be in a private subnet with outbound internet IPv4 connectivity. `Custom Origin` requires EC2 instance to have public internet IPv4 address with `assignStaticIP` assigned to `Yes`. Default is `Custom Origin`
 - `cloudFrontLogging`:  enable CloudFront [standard logging](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) to new S3 bucket. Default is `No`
 
 #### AWS Backup
@@ -240,7 +240,7 @@ To adjust your instance vCPUs count or memory size, you can [change instance typ
 
 The default login user is `ubuntu`. To create additional user, e.g. `newuser`
 
-```
+```bash
 USER=newuser
 
 sudo useradd -m -s /bin/bash $USER 
