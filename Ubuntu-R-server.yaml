@@ -185,7 +185,7 @@ Parameters:
       - Ubuntu 24.04 (x86_64)
       - Ubuntu Pro 26.04 (x86_64)
       - Ubuntu Pro 24.04 (x86_64)
-    Default: Ubuntu 24.04 (x86_64)
+    Default: Ubuntu 26.04 (x86_64)
 
   ec2Name:
     Type: String
@@ -670,16 +670,16 @@ Parameters:
     Type: String
     AllowedPattern: .+
     Description: "Posit Workbench: https://docs.posit.co/ide/server-pro/admin/getting_started/installation/installation.html#download-and-install"
-    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.10.1-239-amd64.deb
+    Default: https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2026.11.0-203-amd64.deb
   RStudioDesktopURL:
     Type: String
     AllowedPattern: .+
     Description: "RStudio Desktop Pro: https://docs.posit.co/ide/user/download.html#direct-downloads-commercial"
-    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.10.1-239-amd64.deb
+    Default: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.11.0-203-amd64.deb
   PositronURL:
     Type: String
     AllowedPattern: .+
-    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.10.2-3-x64.deb
+    Default: https://cdn.posit.co/positron/releases/deb/x86_64/Positron-2026.11.1-4-x64.deb
   ShinyServerURL:
     Type: String
     AllowedPattern: .+
@@ -1905,7 +1905,6 @@ Resources:
                   apt-get install -q -y nginx
                   
                   cp /etc/nginx/nginx.conf  /etc/nginx/nginx.conf."`date +"%Y-%m-%d"`"
-
                   # disable gzip as per https://bugs.debian.org/773332
                   sed -i "s/gzip on/gzip off/g" /etc/nginx/nginx.conf
                   
@@ -1965,6 +1964,8 @@ Resources:
                 mkdir -p /tmp/cfn
                 cd /tmp/cfn
 
+                OS_VERSION=$(. /etc/os-release;echo $VERSION_ID | sed -e 's/\.//g')
+
                 export DEBIAN_FRONTEND=noninteractive
 
                 # R: https://cran.r-project.org/bin/linux/ubuntu/
@@ -1978,21 +1979,51 @@ Resources:
                 # install R itself
                 apt-get -q -y install --no-install-recommends r-base
 
-                # https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html
                 # r2u: https://github.com/eddelbuettel/r2u
                 apt-get install -q -y --no-install-recommends wget ca-certificates gnupg
-                wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc | tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc
-                echo "deb [arch=amd64] https://r2u.stat.illinois.edu/ubuntu noble main" > /etc/apt/sources.list.d/cranapt.list
 
+                # add repo
+                case $OS_VERSION in
+                  2604) # https://github.com/eddelbuettel/r2u/blob/master/inst/scripts/add_cranapt_resolute.sh
+                    gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/r2u.gpg --keyserver keyserver.ubuntu.com --recv-keys A1489FE2AB99A21A 67C2D66C4B1D4339 51716619E084DAB9 F2B6E89C389782D0 5E25F516B04C661B
+                    gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/r2u.gpg --export --armor A1489FE2AB99A21A > /etc/apt/trusted.gpg.d/eddelbuettel.asc
+                    gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/r2u.gpg --export --armor F2B6E89C389782D0 5E25F516B04C661B 51716619E084DAB9 > /etc/apt/trusted.gpg.d/rutter.asc
+                    
+                    cat > /etc/apt/sources.list.d/r2u.sources <<EOF
+                Types: deb
+                URIs: http://r2u.stat.illinois.edu/ubuntu
+                Suites: resolute
+                Components: main
+                Architectures: amd64 arm64
+                Signed-By: /etc/apt/trusted.gpg.d/eddelbuettel.asc
+                EOF
+                    ;;
+                  2404) # https://github.com/eddelbuettel/r2u/blob/master/inst/scripts/add_cranapt_noble.sh
+                    gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/r2u.gpg --keyserver keyserver.ubuntu.com --recv-keys A1489FE2AB99A21A 67C2D66C4B1D4339 51716619E084DAB9
+                    
+                    cat > /etc/apt/sources.list.d/r2u.sources <<EOF
+                Types: deb
+                URIs: https://r2u.stat.illinois.edu/ubuntu
+                Suites: noble
+                Components: main
+                Architectures: amd64 arm64
+                Signed-By: /usr/share/keyrings/r2u.gpg
+                EOF
+                    ;;
+                esac
+
+                # add pinning to ensure package sorting
                 echo "Package: *" > /etc/apt/preferences.d/99cranapt
                 echo "Pin: release o=CRAN-Apt Project" >> /etc/apt/preferences.d/99cranapt
                 echo "Pin: release l=CRAN-Apt Packages" >> /etc/apt/preferences.d/99cranapt
                 echo "Pin-Priority: 700"  >> /etc/apt/preferences.d/99cranapt
 
-                apt-get update -q
+                apt-get update -qq
 
+                # install bspm (and its Python requirements) and enable speed optimization
                 apt-get install -q -y python3-{dbus,gi,apt} make
-                sudo su - -c "R -e \"install.packages('bspm')\""
+                #sudo su - -c "R -e \"install.packages('bspm')\""
+                Rscript -e 'install.packages("bspm")'
                 RHOME=$(R RHOME)
                 echo "suppressMessages(bspm::enable())" >> $RHOME/etc/Rprofile.site
                 echo "options(bspm.version.check=FALSE)" >> $RHOME/etc/Rprofile.site
@@ -2281,7 +2312,6 @@ Resources:
   cfDistributionRStudio:
     Type: AWS::CloudFront::Distribution
     Condition: createCfRStudio
-    DependsOn: ec2Instance
     Metadata:
       cfn_nag:
         rules_to_suppress:
@@ -2298,7 +2328,13 @@ Resources:
               Id: !Ref ec2Instance
               VpcOriginConfig:
                 VpcOriginId: !GetAtt cfVPCOriginRStudio.Id
-            - DomainName: !GetAtt ec2Instance.PublicDnsName
+            - DomainName: !If # PublicDnsName is captured before Elastic IP association, use Elastic IP public DNS name instead
+                - useElasticIP
+                - !Sub
+                  - "ec2-${ipDashed}.${computeDomain}.${AWS::URLSuffix}"
+                  - ipDashed: !Join ["-", !Split [".", !Ref elasticIP]]
+                    computeDomain: !If [isUsEast1, compute-1, !Sub "${AWS::Region}.compute"]
+                - !GetAtt ec2Instance.PublicDnsName
               Id: !Ref ec2Instance
               CustomOriginConfig:
                 OriginProtocolPolicy: http-only
@@ -2318,9 +2354,9 @@ Resources:
             - "HEAD"
             - "GET"
           Compress: true
-          CachePolicyId: "4cc15a8a-d715-48a4-82b8-cc0b614638fe"
-          OriginRequestPolicyId: "216adef6-5c7f-47e4-b989-5492eafa07d3"
-          ResponseHeadersPolicyId: "67f7725c-6f97-4210-82d7-5512b31e9d03"
+          CachePolicyId: "4cc15a8a-d715-48a4-82b8-cc0b614638fe" # UseOriginCacheControlHeaders-QueryStrings
+          OriginRequestPolicyId: "216adef6-5c7f-47e4-b989-5492eafa07d3" # AllViewer
+          ResponseHeadersPolicyId: "67f7725c-6f97-4210-82d7-5512b31e9d03" # SecurityHeadersPolicy
           TargetOriginId: !Ref ec2Instance
           ViewerProtocolPolicy: "redirect-to-https"
         Logging: !If
@@ -2501,7 +2537,6 @@ Resources:
   cfDistributionShiny:
     Type: AWS::CloudFront::Distribution
     Condition: createCfShiny
-    DependsOn: ec2Instance
     Metadata:
       cfn_nag:
         rules_to_suppress:
@@ -2518,7 +2553,13 @@ Resources:
               Id: !Ref ec2Instance
               VpcOriginConfig:
                 VpcOriginId: !GetAtt cfVPCOriginShiny.Id
-            - DomainName: !GetAtt ec2Instance.PublicDnsName
+            - DomainName: !If # PublicDnsName is captured before Elastic IP association, use Elastic IP public DNS name instead
+                - useElasticIP
+                - !Sub
+                  - "ec2-${ipDashed}.${computeDomain}.${AWS::URLSuffix}"
+                  - ipDashed: !Join ["-", !Split [".", !Ref elasticIP]]
+                    computeDomain: !If [isUsEast1, compute-1, !Sub "${AWS::Region}.compute"]
+                - !GetAtt ec2Instance.PublicDnsName
               Id: !Ref ec2Instance
               CustomOriginConfig:
                 OriginProtocolPolicy: http-only
@@ -2538,9 +2579,9 @@ Resources:
             - "HEAD"
             - "GET"
           Compress: true
-          CachePolicyId: "4cc15a8a-d715-48a4-82b8-cc0b614638fe"
-          OriginRequestPolicyId: "216adef6-5c7f-47e4-b989-5492eafa07d3"
-          ResponseHeadersPolicyId: "67f7725c-6f97-4210-82d7-5512b31e9d03"
+          CachePolicyId: "4cc15a8a-d715-48a4-82b8-cc0b614638fe" # UseOriginCacheControlHeaders-QueryStrings
+          OriginRequestPolicyId: "216adef6-5c7f-47e4-b989-5492eafa07d3" # AllViewer
+          ResponseHeadersPolicyId: "67f7725c-6f97-4210-82d7-5512b31e9d03" # SecurityHeadersPolicy
           TargetOriginId: !Ref ec2Instance
           ViewerProtocolPolicy: "redirect-to-https"
         Logging: !If
@@ -2590,14 +2631,14 @@ Outputs:
     Description: DCV URL (login as ubuntu)
     Value: !Sub
       - "https://${IpAddress}:8443/?username=ubuntu     ( dcv://ubuntu:@${IpAddress}:8443 )"
-      - IpAddress: !If [displayPublicIP, !GetAtt ec2Instance.PublicIp, !GetAtt ec2Instance.PrivateIp]
+      - IpAddress: !If [useElasticIP, !Ref elasticIP, !If [displayPublicIP, !GetAtt ec2Instance.PublicIp, !GetAtt ec2Instance.PrivateIp]]
 
   DCVhttpsUrl:
     Condition: installReverseProxy
     Description: DCV reverse proxy URL ( login as ubuntu )
     Value: !Sub
       - "https://${IpAddress}/?username=ubuntu     ( dcv://ubuntu:@${IpAddress}:443 )"
-      - IpAddress: !If [displayPublicIP, !GetAtt ec2Instance.PublicIp, !GetAtt ec2Instance.PrivateIp]
+      - IpAddress: !If [useElasticIP, !Ref elasticIP, !If [displayPublicIP, !GetAtt ec2Instance.PublicIp, !GetAtt ec2Instance.PrivateIp]]
 
   CloudFrontConsole:
     Condition: createCloudFront
